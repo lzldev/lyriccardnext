@@ -6,6 +6,28 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --scroll-bar-background: #111111;
+  --scroll-bar-foreground: #111111;
+  --scroll-bar-border: #555555;
+}
+
+@layer components {
+  /* scrollbars */
+  *::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: var(--scroll-bar-background);
+  }
+
+  *::-webkit-scrollbar {
+    width: 10px;
+    background-color: var(--scroll-bar-background);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background-color: --scroll-bar-foreground;
+    border: 2px solid var(--scroll-bar-border);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
