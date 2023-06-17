@@ -34,11 +34,17 @@ const getToken = () => {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const query = searchParams.get('query')
+  const query = searchParams.get('q')
 
-  if (query === null) {
+  if (query === null || query === undefined) {
     return new NextResponse(null, {
       status: 400,
+    })
+  }
+
+  if (query === '') {
+    return new NextResponse(null, {
+      status: 200,
     })
   }
 
@@ -46,10 +52,7 @@ export async function GET(request: Request) {
     (new Date().getTime() - lastAuthTime) / 1000
   )
 
-  console.log('timeSinceLastAuth ->', timeSinceLastAuth)
-
   if (currentToken === null || timeSinceLastAuth > currentToken?.expires_in) {
-    console.log('Invalid Token ->')
     await Authenticate()
   }
 
@@ -69,5 +72,5 @@ export async function GET(request: Request) {
     })
   }
 
-  return NextResponse.json(search)
+  return NextResponse.json(search.data)
 }

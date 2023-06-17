@@ -33,4 +33,9 @@ const QUERY_PARSER = z.object({
   }),
 })
 
+type SearchArtistResponse = z.infer<typeof QUERY_PARSER>
+type SpotifyArtist = z.infer<typeof SPOTIFY_ARTIST>
+type SpotifyImage = z.infer<typeof SPOTIFY_IMAGE>
+
 export { QUERY_PARSER, SPOTIFY_ARTIST, SPOTIFY_IMAGE }
+export type { SearchArtistResponse, SpotifyArtist }

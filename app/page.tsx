@@ -1,50 +1,39 @@
-"use client";
+'use client'
 
-import { useSignal } from "@preact/signals-react";
-
-let debounce: NodeJS.Timeout;
-const DEBOUNCETIME = 500;
+import { useSignal } from '@preact/signals-react'
+import { useState } from 'react'
+import { SearchArtistResponse } from './api/search/spotifyParser'
+import { ArtistsQuery } from './components/ArtistQuery'
+import { LyricCard } from './components/LyricCard'
 
 export default function Home() {
-  const sc = useSignal(0);
-  // const qArtist = useSignal("");
-  // qArtist.subscribe((artist) => {
-  //   if (debounce) {
-  //     clearTimeout(debounce);
-  //   }
-  //   const listener = () => {
-  //     console.log("pop ->", artist);
-  //   };
-  //   debounce = setTimeout(listener, DEBOUNCETIME);
-  // });
+  const sc = useSignal(0)
+  const selected = useSignal<number | null>(null)
+  const [artists, setArtists] = useState<SearchArtistResponse | null>(null)
 
   return (
-    <div className="flex p-24 flex-col grow">
-      <div className="relative">
-        {/* <input
-          type="text"
-          value={qArtist.value}
-          onChange={(evt) => {
-            qArtist.value = evt.currentTarget.value;
-          }}
-          className="bg-neutral-700 outline-none ring-1 ring-pink-800 p-0.5 selection:bg-pink-600 "
-          placeholder="Search Artist"
-        /> */}
-        <div
-          className="absolute -bottom-[5rem] z-10 h-[5rem] bg-neutral-600 w-full overflow-y-scroll"
-          hidden
-        >
-          <p className="hover:bg-neutral-500 select-none">bladee</p>
-          <p className="hover:bg-neutral-500 select-none">bladee</p>
-          <p className="hover:bg-neutral-500 select-none">bladee</p>
-          <p className="hover:bg-neutral-500 select-none">bladee</p>
-          <p className="hover:bg-neutral-500 select-none">bladee</p>
-        </div>
+    <div className='flex p-24 flex-col grow w-full jusitfy-center items-center'>
+      <ArtistsQuery
+        artists={artists?.artists?.items || []}
+        onSelect={(idx) => {
+          selected.value = idx
+        }}
+        onQuery={async (query) => {
+          const artists = (await (
+            await fetch(`/api/search?q=${query}`)
+          ).json()) as SearchArtistResponse
+
+          setArtists(artists)
+        }}
+      />
+      <div className='flex flex-row gap-2 m-2'>
+        {selected.value !== null && (
+          <LyricCard artist={artists!.artists.items[selected.value]} />
+        )}
+        {selected.value !== null && (
+          <LyricCard artist={artists!.artists.items[selected.value]} square />
+        )}
       </div>
-      <button onClick={() => sc.value++}>count s</button>
-      <p className="px-1">Signal</p>
-      <p>Test - {sc.value}</p>
-      <p>Test MultiP - {sc.value * 2}</p>
     </div>
-  );
+  )
 }

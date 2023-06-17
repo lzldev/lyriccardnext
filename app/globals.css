@@ -10,7 +10,14 @@
   --scroll-bar-foreground: #111111;
   --scroll-bar-border: #555555;
 }
-
+.vertical-writing {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+* {
+  @apply selection:bg-pink-600;
+  @apply outline-none;
+}
 @layer components {
   /* scrollbars */
   *::-webkit-scrollbar-track {
