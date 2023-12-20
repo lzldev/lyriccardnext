@@ -3,6 +3,12 @@
 @tailwind utilities;
 
 @layer components {
+  :root {
+    --scroll-bar-border: #696969;
+    --scroll-bar-foreground: #d9d9d9;
+    --scroll-bar-background: #595959;
+  }
+
   /* SCROLLBARS ---------------------- */
   *::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -18,4 +24,16 @@
     border: 2px solid var(--scroll-bar-border);
   }
   /* --------------------------------- */
+  /* input[type='color'] {
+    -webkit-appearance: none;
+    border: none;
+    width: auto;
+    height: 100%;
+  } */
+  input[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0;
+  }
+  input[type='color']::-webkit-color-swatch {
+    border: none;
+  }
 }
