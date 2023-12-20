@@ -1,7 +1,16 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { ArtistsQuery } from './ArtistQuery'
-import { LyricCard } from './LyricCard'
+
+const LyricCard = dynamic(async () => (await import('./LyricCard')).LyricCard, {
+  ssr: false,
+  loading: () => (
+    <div className='flex items-center justify-center text-xl flex-grow h-72'>
+      Loading...
+    </div>
+  ),
+})
 
 export const LyricCardGenerator = () => {
   return (

@@ -38,6 +38,9 @@ const useArtistQueryStore = create<ArtistQueryStore>()(
         }),
         {
           name: 'ArtistQueryStore',
+          partialize: (state) => ({
+            selected: state.selected,
+          }),
         }
       )
     )
