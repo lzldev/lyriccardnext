@@ -22,7 +22,7 @@ export default function RootLayout({
           Font.className
         )}
       >
-        <main className='flex flex-col items-center justify-center w-screen h-screen min-h-screen overflow-x-hidden'>
+        <main className='flex flex-col w-full h-screen min-h-screen'>
           {children}
           <footer className='flex flex-row-reverse w-full px-4 py-4 tracking-tighter'>
             <span className='select-none'>

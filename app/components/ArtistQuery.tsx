@@ -41,8 +41,10 @@ const ArtistsQuery = ({ artists, onSelect, onQuery }: ComponentProps) => {
   }, [query, onQuery])
 
   return (
-    <div className='relative'>
+    <div className='relative flex flex-col w-full bg-blue-500'>
       <input
+        className='flex w-full max-w-full min-w-0 p-1 outline-none bg-neutral-700 focus:outline-accent-highlight ring-1 ring-accent'
+        placeholder='Search Artist'
         type='text'
         value={query}
         onChange={(evt) => {
@@ -51,11 +53,6 @@ const ArtistsQuery = ({ artists, onSelect, onQuery }: ComponentProps) => {
         onFocus={() => {
           setShowDropDown(true)
         }}
-        // onBlur={() => {
-        //   setShowDropDown(false)
-        // }}
-        className='bg-neutral-700 outline-none focus:outline-accent-highlight ring-1 ring-accent p-0.5 w-full'
-        placeholder='Search Artist'
       />
       <div
         className={clsx(

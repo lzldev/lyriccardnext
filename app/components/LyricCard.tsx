@@ -31,7 +31,7 @@ const LyricCard = ({ artist, vertical }: LyricCardProps) => {
   }, [cardRef])
 
   return (
-    <div className='flex flex-col'>
+    <div className='flex flex-col gap-y-2'>
       <div
         ref={cardRef}
         style={{ backgroundImage: `url(${artist.images[0].url})` }}
@@ -63,8 +63,7 @@ const LyricCard = ({ artist, vertical }: LyricCardProps) => {
         className='flex p-2 transition-colors cursor-pointer select-none bg-accent hover:bg-accent-highlight active:bg-accent-dark'
         onClick={callback}
       >
-        export
-        <span className='ml-2'>{vertical ? 'vertical' : 'laying down'}</span>
+        export card
       </div>
     </div>
   )
