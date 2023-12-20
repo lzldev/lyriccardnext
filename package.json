@@ -16,6 +16,7 @@
     "clsx": "^1.2.1",
     "eslint": "8.43.0",
     "eslint-config-next": "14.0.4",
+    "geist": "^1.2.0",
     "html2canvas": "^1.4.1",
     "next": "14.0.4",
     "postcss": "8.4.24",

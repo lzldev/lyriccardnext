@@ -5,12 +5,12 @@ import { SpotifyArtist } from '../api/search/spotifyParser'
 import { useCallback, useRef } from 'react'
 import html2canvas from 'html2canvas'
 
-type ComponentProp = {
+type LyricCardProps = {
   artist: SpotifyArtist
   vertical?: boolean
 }
 
-const LyricCard = ({ artist, vertical }: ComponentProp) => {
+const LyricCard = ({ artist, vertical }: LyricCardProps) => {
   const cardRef = useRef(null)
 
   const callback = useCallback(async () => {
@@ -40,18 +40,16 @@ const LyricCard = ({ artist, vertical }: ComponentProp) => {
           vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]' //TODO: use correct aspect ratios in this
         )}
       >
-        <div
-          className='grow justify-end flex text-xl flex-col p-4'
+        <p
+          className='grow justify-end flex text-xl flex-col p-4 outline-none'
           contentEditable
           suppressContentEditableWarning
         >
-          {`
           Click to edit
-          Press enter to insert new lines
-
+          <br />
+          Press enter to insert new lines <br />
           Or just paste some text
-          `}
-        </div>
+        </p>
         <div className='p-4 self-end bg-black w-full border-t-2'>
           {`${artist.name}, `}
           <span
