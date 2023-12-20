@@ -75,7 +75,7 @@ const ArtistsQuery = ({ artists, onSelect, onQuery }: ComponentProps) => {
               onSelect(idx)
               setShowDropDown(false)
             }}
-            className='flex hover:bg-neutral-500 select-none pointer-events-auto'
+            className='flex pointer-events-auto select-none hover:bg-neutral-500'
           >
             {item.name}
           </div>

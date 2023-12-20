@@ -41,7 +41,7 @@ const LyricCard = ({ artist, vertical }: LyricCardProps) => {
         )}
       >
         <p
-          className='grow justify-end flex text-xl flex-col p-4 outline-none'
+          className='flex flex-col justify-end p-4 text-xl outline-none grow'
           contentEditable
           suppressContentEditableWarning
         >
@@ -50,7 +50,7 @@ const LyricCard = ({ artist, vertical }: LyricCardProps) => {
           Press enter to insert new lines <br />
           Or just paste some text
         </p>
-        <div className='p-4 self-end bg-black w-full border-t-2'>
+        <div className='self-end w-full p-4 bg-black border-t-2'>
           {`${artist.name}, `}
           <span
             className='outline-none'
@@ -60,7 +60,7 @@ const LyricCard = ({ artist, vertical }: LyricCardProps) => {
         </div>
       </div>
       <div
-        className='bg-accent p-2 flex hover:bg-accent-highlight transition-colors select-none cursor-pointer active:bg-accent-dark'
+        className='flex p-2 transition-colors cursor-pointer select-none bg-accent hover:bg-accent-highlight active:bg-accent-dark'
         onClick={callback}
       >
         export

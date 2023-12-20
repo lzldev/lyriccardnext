@@ -2,7 +2,7 @@ import { LyricCardGenerator } from './components/LyricCardGenerator'
 
 export default function Home() {
   return (
-    <div className='flex p-24 flex-col grow w-full jusitfy-center items-center'>
+    <div className='flex flex-col items-center w-full h-full grow jusitfy-center'>
       <LyricCardGenerator />
     </div>
   )
