@@ -1,5 +1,6 @@
 const SPOTIFY_SEARCH = 'https://api.spotify.com/v1/search'
 const AUTH_URL = 'https://accounts.spotify.com/api/token'
+
 if (
   process.env.SPOTIFY_CLIENT_ID === '' ||
   !process.env.SPOTIFY_CLIENT_ID ||

@@ -1,7 +1,7 @@
 'use client'
+
 import { PropsWithChildren, useEffect, useRef, useState } from 'react'
 import { SpotifyArtist } from '../api/search/spotifyParser'
-import { effect, useSignal } from '@preact/signals-react'
 import { clsx } from 'clsx'
 
 type ComponentProps = {
@@ -12,27 +12,26 @@ type ComponentProps = {
 
 const DEBOUNCETIME = 500
 
-const ArtistsQuery = ({
-  artists,
-  onSelect,
-  onQuery,
-  children,
-}: ComponentProps) => {
-  const showDropDown = useSignal(false)
-  const query = useSignal('')
+const ArtistsQuery = ({ artists, onSelect, onQuery }: ComponentProps) => {
+  const [showDropDown, setShowDropDown] = useState(false)
   const debounce = useRef<NodeJS.Timeout | undefined>(undefined)
+
   const lastQuery = useRef<string>('')
+
+  const [query, setStateQuery] = useState('')
 
   useEffect(() => {
     if (debounce.current) {
       clearTimeout(debounce.current)
     }
-    if (query.value === lastQuery.current) {
+
+    if (query === lastQuery.current) {
       return
     }
+
     const listener = () => {
-      onQuery(query.value)
-      lastQuery.current = query.value
+      onQuery(query)
+      lastQuery.current = query
     }
 
     debounce.current = setTimeout(listener, DEBOUNCETIME)
@@ -40,42 +39,47 @@ const ArtistsQuery = ({
     return () => {
       clearTimeout(debounce.current)
     }
-  }, [query.value, onQuery])
+  }, [query, onQuery])
 
   return (
     <div className='relative'>
       <input
         type='text'
-        value={query.value}
+        value={query}
         onChange={(evt) => {
-          query.value = evt.currentTarget.value
+          setStateQuery(evt.currentTarget.value)
         }}
-        onFocus={(evt) => {
-          showDropDown.value = true
+        onFocus={() => {
+          setShowDropDown(true)
         }}
         // onBlur={() => {
-        //   showDropDown.value = false
+        //   setShowDropDown(false)
         // }}
         className='bg-neutral-700 outline-none ring-1 ring-pink-800 p-0.5 w-full'
         placeholder='Search Artist'
       />
       <div
         className={clsx(
-          'absolute -bottom-[5rem] z-10 h-[5rem] bg-neutral-600 w-full overflow-y-scroll',
-          !showDropDown.value || artists.length === 0 ? 'hidden' : ''
+          'absolute -bottom-[5rem] z-10 h-[5rem] bg-neutral-600 w-full overflow-y-scroll pointer-events-none',
+          !showDropDown || artists.length === 0 ? 'hidden' : ''
         )}
       >
         {artists.map((item, idx) => (
-          <p
+          <div
             key={idx}
-            className='hover:bg-neutral-500 select-none'
             onClick={(evt) => {
+              evt.preventDefault()
+              evt.stopPropagation()
+
+              console.log('id ->', idx)
+
               onSelect(idx)
-              showDropDown.value = false
+              setShowDropDown(false)
             }}
+            className='flex hover:bg-neutral-500 select-none pointer-events-auto'
           >
             {item.name}
-          </p>
+          </div>
         ))}
       </div>
     </div>
