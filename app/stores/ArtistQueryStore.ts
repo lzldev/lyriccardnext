@@ -10,6 +10,7 @@ import type {
 
 interface ArtistQueryStore {
   query: string
+  loading: boolean
   setArtistQuery: (query: string) => void
   result: SearchArtistResponse | null
   selected: SpotifyArtist | null
@@ -22,6 +23,7 @@ const useArtistQueryStore = create<ArtistQueryStore>()(
       persist(
         (set) => ({
           query: '',
+          loading: false,
           result: null,
           selected: null,
           pickArtist(idx) {
@@ -57,8 +59,11 @@ useArtistQueryStore.subscribe(
     }
 
     if (query === '') {
+      useArtistQueryStore.setState((prev) => ({ ...prev, loading: false }))
       return
     }
+
+    useArtistQueryStore.setState((prev) => ({ ...prev, loading: true }))
 
     debounceTimer = setTimeout(async () => {
       const artists = (await (
@@ -68,6 +73,7 @@ useArtistQueryStore.subscribe(
       useArtistQueryStore.setState((prevState) => ({
         ...prevState,
         result: artists,
+        loading: false,
       }))
     }, DEBOUNCE_TIMEOUT)
   }
