@@ -5,6 +5,7 @@ const SPOTIFY_IMAGE = z.object({
   url: z.string(),
   width: z.number(),
 })
+
 const SPOTIFY_ARTIST = z.object({
   external_urls: z.object({
     spotify: z.string(),
@@ -22,6 +23,7 @@ const SPOTIFY_ARTIST = z.object({
   type: z.string(),
   uri: z.string(),
 })
+
 const QUERY_PARSER = z.object({
   artists: z.object({
     href: z.string(),
@@ -33,9 +35,8 @@ const QUERY_PARSER = z.object({
   }),
 })
 
-type SearchArtistResponse = z.infer<typeof QUERY_PARSER>
-type SpotifyArtist = z.infer<typeof SPOTIFY_ARTIST>
-type SpotifyImage = z.infer<typeof SPOTIFY_IMAGE>
-
 export { QUERY_PARSER, SPOTIFY_ARTIST, SPOTIFY_IMAGE }
-export type { SearchArtistResponse, SpotifyArtist }
+
+export type SearchArtistResponse = z.infer<typeof QUERY_PARSER>
+export type SpotifyArtist = z.infer<typeof SPOTIFY_ARTIST>
+export type SpotifyImage = z.infer<typeof SPOTIFY_IMAGE>

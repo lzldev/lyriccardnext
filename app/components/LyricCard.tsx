@@ -1,19 +1,21 @@
 'use client'
 
 import clsx from 'clsx'
-import { SpotifyArtist } from '../api/search/spotifyParser'
 import { useCallback, useRef } from 'react'
 import html2canvas from 'html2canvas'
+import { useArtistQueryStore } from '../stores/ArtistQueryStore'
 
 type LyricCardProps = {
-  artist: SpotifyArtist
   vertical?: boolean
 }
 
-const LyricCard = ({ artist, vertical }: LyricCardProps) => {
+const LyricCard = ({ vertical }: LyricCardProps) => {
   const cardRef = useRef(null)
+  const { artist } = useArtistQueryStore((store) => ({
+    artist: store.selected,
+  }))
 
-  const callback = useCallback(async () => {
+  const exportCardCallback = useCallback(async () => {
     if (!cardRef.current) return
 
     const canvas = await html2canvas(cardRef.current, {
@@ -29,6 +31,10 @@ const LyricCard = ({ artist, vertical }: LyricCardProps) => {
     link.download = 'screenshot.png'
     link.click()
   }, [cardRef])
+
+  if (!artist) {
+    return <></>
+  }
 
   return (
     <div className='flex flex-col gap-y-2'>
@@ -61,7 +67,7 @@ const LyricCard = ({ artist, vertical }: LyricCardProps) => {
       </div>
       <div
         className='flex p-2 transition-colors cursor-pointer select-none bg-accent hover:bg-accent-highlight active:bg-accent-dark'
-        onClick={callback}
+        onClick={exportCardCallback}
       >
         export card
       </div>

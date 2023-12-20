@@ -1,44 +1,27 @@
 'use client'
 
-import { PropsWithChildren, useEffect, useRef, useState } from 'react'
-import { SpotifyArtist } from '../api/search/spotifyParser'
+import { PropsWithChildren, useState } from 'react'
 import { clsx } from 'clsx'
+import { useArtistQueryStore } from '../stores/ArtistQueryStore'
 
-type ComponentProps = {
-  onQuery: (query: string) => any
-  onSelect: (idx: number) => any
-  artists: SpotifyArtist[]
-} & PropsWithChildren
+type ComponentProps = PropsWithChildren
 
 const DEBOUNCETIME = 500
 
-const ArtistsQuery = ({ artists, onSelect, onQuery }: ComponentProps) => {
+const ArtistsQuery = (props: ComponentProps) => {
   const [showDropDown, setShowDropDown] = useState(false)
-  const debounce = useRef<NodeJS.Timeout | undefined>(undefined)
-  const lastQuery = useRef<string>('')
 
-  const [query, setStateQuery] = useState('')
+  const { query, setArtistQuery, result, pickArtist } = useArtistQueryStore(
+    (store) => ({
+      query: store.query,
+      setArtistQuery: store.setArtistQuery,
+      result: store.result,
+      pickArtist: store.pickArtist,
+    })
+  )
 
-  useEffect(() => {
-    if (debounce.current) {
-      clearTimeout(debounce.current)
-    }
-
-    if (query === lastQuery.current) {
-      return
-    }
-
-    const listener = () => {
-      onQuery(query)
-      lastQuery.current = query
-    }
-
-    debounce.current = setTimeout(listener, DEBOUNCETIME)
-
-    return () => {
-      clearTimeout(debounce.current)
-    }
-  }, [query, onQuery])
+  const artists = result?.artists?.items
+  const foundArtists = artists?.length && artists?.length > 0
 
   return (
     <div className='relative flex flex-col w-full bg-blue-500'>
@@ -48,7 +31,7 @@ const ArtistsQuery = ({ artists, onSelect, onQuery }: ComponentProps) => {
         type='text'
         value={query}
         onChange={(evt) => {
-          setStateQuery(evt.currentTarget.value)
+          setArtistQuery(evt.currentTarget.value)
         }}
         onFocus={() => {
           setShowDropDown(true)
@@ -57,19 +40,17 @@ const ArtistsQuery = ({ artists, onSelect, onQuery }: ComponentProps) => {
       <div
         className={clsx(
           'absolute -bottom-[5rem] z-10 h-[5rem] bg-neutral-600 w-full overflow-y-scroll pointer-events-none',
-          !showDropDown || artists.length === 0 ? 'hidden' : ''
+          !showDropDown || !foundArtists ? 'hidden' : ''
         )}
       >
-        {artists.map((item, idx) => (
+        {artists?.map((item, idx) => (
           <div
             key={idx}
             onClick={(evt) => {
               evt.preventDefault()
               evt.stopPropagation()
 
-              console.log('id ->', idx)
-
-              onSelect(idx)
+              pickArtist(idx)
               setShowDropDown(false)
             }}
             className='flex pointer-events-auto select-none hover:bg-neutral-500'

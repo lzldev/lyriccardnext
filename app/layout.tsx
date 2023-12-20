@@ -2,8 +2,6 @@ import { clsx } from 'clsx'
 import './globals.css'
 import { GeistSans as Font } from 'geist/font/sans'
 
-// const FontClass = Font({ weight: '400', subsets: ['latin'] })
-
 export const metadata = {
   title: 'Lyric Card Generator',
   description: 'Generate lyric cards from Spotify images.',
