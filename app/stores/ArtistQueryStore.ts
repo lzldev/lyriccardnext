@@ -2,12 +2,35 @@
 
 import { create } from 'zustand'
 import { devtools, persist, subscribeWithSelector } from 'zustand/middleware'
-
 import type {
   SearchArtistResponse,
   SpotifyArtist,
 } from '../api/search/spotifyParser'
 import { w } from '../lib/wretch'
+
+const initialQuery = (() => {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
+  let query
+  try {
+    query = new URL(window.location.toString())
+  } catch {
+    return
+  }
+
+  const qr = query.searchParams.get('query')
+
+  if (!qr) {
+    return null
+  }
+
+  return {
+    query: qr,
+    initial: true,
+  }
+})()
 
 interface ArtistQueryStore {
   query: string
@@ -23,7 +46,7 @@ const useArtistQueryStore = create<ArtistQueryStore>()(
     devtools(
       persist(
         (set) => ({
-          query: '',
+          query: initialQuery?.query ?? '',
           loading: false,
           result: null,
           selected: null,
@@ -48,14 +71,14 @@ const useArtistQueryStore = create<ArtistQueryStore>()(
   )
 )
 
-let debounceTimer: NodeJS.Timer | null
 const DEBOUNCE_TIMEOUT = 100
+let debounceTimer: NodeJS.Timer | null
 let abortController: AbortController
 
 useArtistQueryStore.subscribe(
   (state) => state.query,
   (query, prevQuery) => {
-    if (prevQuery === query) {
+    if (!initialQuery?.initial && prevQuery === query) {
       return
     }
 
@@ -78,20 +101,27 @@ useArtistQueryStore.subscribe(
 
       abortController = controller
 
-      const artists = await req
-        .json<SearchArtistResponse>()
-        .catch((r) => console.log('e:abort'))
+      const artists = await req.json<SearchArtistResponse>().catch(() => null)
 
       if (!artists) {
         return
+      }
+
+      const lock = initialQuery?.initial
+      if (lock) {
+        initialQuery.initial = false
       }
 
       useArtistQueryStore.setState((prevState) => ({
         ...prevState,
         result: artists,
         loading: false,
+        selected: lock ? artists.artists.items.at(0) : prevState.selected,
       }))
     }, DEBOUNCE_TIMEOUT)
+  },
+  {
+    fireImmediately: true,
   }
 )
 
