@@ -16,7 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <body className={clsx('bg-neutral-900 text-neutral-50', Font.className)}>
+      <body
+        className={clsx(
+          'bg-background text-dark selection:bg-accent-highlight',
+          Font.className
+        )}
+      >
         <main className='flex min-h-screen h-screen w-screen items-center justify-center flex-col overflow-x-hidden'>
           {children}
           <footer className='flex flex-row-reverse w-full py-4 px-4 tracking-tighter'>

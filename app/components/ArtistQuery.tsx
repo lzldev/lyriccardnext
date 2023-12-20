@@ -54,7 +54,7 @@ const ArtistsQuery = ({ artists, onSelect, onQuery }: ComponentProps) => {
         // onBlur={() => {
         //   setShowDropDown(false)
         // }}
-        className='bg-neutral-700 outline-none focus:outline-pink-700 ring-1 ring-pink-800 p-0.5 w-full'
+        className='bg-neutral-700 outline-none focus:outline-accent-highlight ring-1 ring-accent p-0.5 w-full'
         placeholder='Search Artist'
       />
       <div

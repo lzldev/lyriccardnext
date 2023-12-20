@@ -36,7 +36,7 @@ const LyricCard = ({ artist, vertical }: LyricCardProps) => {
         ref={cardRef}
         style={{ backgroundImage: `url(${artist.images[0].url})` }}
         className={clsx(
-          'bg-pink-500 flex flex-col',
+          'bg-accent flex flex-col',
           vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]' //TODO: use correct aspect ratios in this
         )}
       >
@@ -53,13 +53,14 @@ const LyricCard = ({ artist, vertical }: LyricCardProps) => {
         <div className='p-4 self-end bg-black w-full border-t-2'>
           {`${artist.name}, `}
           <span
+            className='outline-none'
             contentEditable
             suppressContentEditableWarning
           >{`"SONG NAME"`}</span>
         </div>
       </div>
       <div
-        className='bg-rose-600 p-2 flex hover:bg-rose-400'
+        className='bg-accent p-2 flex hover:bg-accent-highlight transition-colors select-none cursor-pointer active:bg-accent-dark'
         onClick={callback}
       >
         export
