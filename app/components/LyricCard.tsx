@@ -1,7 +1,7 @@
 'use client'
 
 import clsx from 'clsx'
-import { useCallback, useRef } from 'react'
+import { HTMLAttributes, useCallback, useRef } from 'react'
 import html2canvas from 'html2canvas'
 import { useArtistQueryStore } from '../stores/ArtistQueryStore'
 
@@ -42,12 +42,12 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
         ref={cardRef}
         style={{ backgroundImage: `url(${artist.images[0].url})` }}
         className={clsx(
-          'bg-accent flex flex-col',
+          'bg-accent flex flex-col max-w-full max-h-full',
           vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]' //TODO: use correct aspect ratios in this
         )}
       >
         <p
-          className='flex flex-col justify-end p-4 text-xl outline-none grow'
+          className='flex flex-col justify-end p-4 text-xl outline-none flex-grow'
           contentEditable
           suppressContentEditableWarning
         >
@@ -56,23 +56,47 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
           Press enter to insert new lines <br />
           Or just paste some text
         </p>
-        <div className='self-end w-full p-4 bg-black border-t-2'>
-          {`${artist.name}, `}
-          <span
-            className='outline-none'
-            contentEditable
-            suppressContentEditableWarning
-          >{`"SONG NAME"`}</span>
+        <div className='w-full p-4 bg-transparent border-t-2 relative isolate bg-black'>
+          <input
+            defaultValue={'#000000'}
+            type='color'
+            className='outline-none inset-0 w-full h-full -z-10 absolute cursor-pointer'
+          />
+          <span className='z-10 pointer-events-auto'>
+            {`${artist.name}, `}
+            <span
+              className='outline-none'
+              contentEditable
+              suppressContentEditableWarning
+            >{`"SONG NAME"`}</span>
+          </span>
         </div>
       </div>
       <div
-        className='flex p-2 transition-colors cursor-pointer select-none bg-accent hover:bg-accent-highlight active:bg-accent-dark'
+        className='group/button flex align-middle items-center p-2 transition-colors cursor-pointer select-none bg-accent hover:bg-accent-highlight active:bg-accent-dark'
         onClick={exportCardCallback}
       >
-        export card
+        <DownloadIcon className='group-hover/button:scale-110 size-5 mx-1' />
+        download
       </div>
     </div>
   )
 }
 
+const DownloadIcon = (props: HTMLAttributes<SVGElement>) => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width='32'
+      height='32'
+      viewBox='0 0 24 24'
+      {...props}
+    >
+      <path
+        fill='currentColor'
+        d='M13 3a1 1 0 1 0-2 0v12.086l-3.293-3.293a1 1 0 0 0-1.414 1.414l5 5a1 1 0 0 0 1.414 0l5-5a1 1 0 0 0-1.414-1.414L13 15.086zM5 20a1 1 0 1 0 0 2h14a1 1 0 1 0 0-2z'
+      />
+    </svg>
+  )
+}
 export { LyricCard }
