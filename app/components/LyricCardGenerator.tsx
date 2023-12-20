@@ -10,7 +10,7 @@ export const LyricCardGenerator = () => {
   const [artists, setArtists] = useState<SearchArtistResponse | null>(null)
 
   return (
-    <div className='gap-y-2'>
+    <div className='gap-y-2 flex flex-col'>
       <ArtistsQuery
         artists={artists?.artists?.items || []}
         onSelect={(idx) => {
@@ -26,10 +26,10 @@ export const LyricCardGenerator = () => {
       />
       <div className='flex flex-row gap-2'>
         {selected !== null && (
-          <LyricCard artist={artists!.artists.items[selected]} />
-        )}
-        {selected !== null && (
-          <LyricCard artist={artists!.artists.items[selected]} square />
+          <>
+            <LyricCard artist={artists!.artists.items[selected]} />
+            <LyricCard artist={artists!.artists.items[selected]} vertical />
+          </>
         )}
       </div>
     </div>
