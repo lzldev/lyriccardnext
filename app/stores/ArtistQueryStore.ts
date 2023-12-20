@@ -7,6 +7,7 @@ import type {
   SearchArtistResponse,
   SpotifyArtist,
 } from '../api/search/spotifyParser'
+import { w } from '../lib/wretch'
 
 interface ArtistQueryStore {
   query: string
@@ -48,7 +49,8 @@ const useArtistQueryStore = create<ArtistQueryStore>()(
 )
 
 let debounceTimer: NodeJS.Timer | null
-const DEBOUNCE_TIMEOUT = 50
+const DEBOUNCE_TIMEOUT = 100
+let abortController: AbortController
 
 useArtistQueryStore.subscribe(
   (state) => state.query,
@@ -58,6 +60,7 @@ useArtistQueryStore.subscribe(
     }
 
     if (debounceTimer !== null) {
+      abortController?.abort('Debounce')
       clearTimeout(debounceTimer)
     }
 
@@ -69,9 +72,19 @@ useArtistQueryStore.subscribe(
     useArtistQueryStore.setState((prev) => ({ ...prev, loading: true }))
 
     debounceTimer = setTimeout(async () => {
-      const artists = (await (
-        await fetch(`/api/search?q=${query}`)
-      ).json()) as SearchArtistResponse
+      const [controller, req] = await w
+        .get(`/api/search?q=${query}`)
+        .controller()
+
+      abortController = controller
+
+      const artists = await req
+        .json<SearchArtistResponse>()
+        .catch((r) => console.log('e:abort'))
+
+      if (!artists) {
+        return
+      }
 
       useArtistQueryStore.setState((prevState) => ({
         ...prevState,
