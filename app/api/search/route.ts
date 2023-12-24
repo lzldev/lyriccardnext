@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { ServerErrorResponse , InvalidDataResponse} from '../default_responses'
+import { ServerErrorResponse, InvalidDataResponse } from '../default_responses'
 import { LASTFM_ARTIST_SEARCH, LASTFM_BASE } from './lastfmHelpers'
 import { LASTFM_ARTIST_RESPONSE_PARSER } from './lastfmParsers'
 
@@ -15,17 +15,17 @@ export async function GET(request: Request) {
   const url = LASTFM_ARTIST_SEARCH(query)
   const res = await fetch(url)
 
-  if(!res.ok){
+  if (!res.ok) {
     return ServerErrorResponse()
   }
 
   const _data = await res.json()
 
-  const data = LASTFM_ARTIST_RESPONSE_PARSER.safeParse(_data)
+  const parse = LASTFM_ARTIST_RESPONSE_PARSER.safeParse(_data)
 
-  if (!data.success) {
+  if (!parse.success) {
     return ServerErrorResponse()
   }
 
-  return NextResponse.json(data)
+  return NextResponse.json(parse.data)
 }
