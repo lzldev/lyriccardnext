@@ -1,19 +1,21 @@
 'use client'
 
 import clsx from 'clsx'
-import { HTMLAttributes, useCallback, useRef } from 'react'
 import html2canvas from 'html2canvas'
+
+import { type HTMLAttributes, useCallback, useRef } from 'react'
+import { useArtistImageStore } from '../stores/ArtistImageStore'
 import { useArtistQueryStore } from '../stores/ArtistQueryStore'
 
 type LyricCardProps = {
   vertical?: boolean
 }
 
-const LyricCard = ({ vertical }: LyricCardProps) => {
+const LyricCard = ({vertical}:LyricCardProps) => {
   const cardRef = useRef(null)
-  const { artist } = useArtistQueryStore((store) => ({
-    artist: store.selected,
-  }))
+
+  const selected = useArtistImageStore((s) => s.selected)
+  const artist = useArtistQueryStore((s) => s.selected)
 
   const exportCardCallback = useCallback(async () => {
     if (!cardRef.current) return
@@ -32,7 +34,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
     link.click()
   }, [cardRef])
 
-  if (!artist) {
+  if (!artist || !selected) {
     return <></>
   }
 
@@ -40,10 +42,10 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
     <div className='flex flex-col gap-y-2'>
       <div
         ref={cardRef}
-        style={{ backgroundImage: `url(${artist.images[0].url})` }}
+        style={{ backgroundImage: `url(${selected.src})` }}
         className={clsx(
           'bg-accent flex flex-col max-w-full max-h-full',
-          vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]' //TODO: use correct aspect ratios in this
+          vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]'
         )}
       >
         <p

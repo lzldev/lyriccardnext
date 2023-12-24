@@ -23,10 +23,26 @@ const ArtistsQuery = dynamic(
   }
 )
 
+
+const ImagePicker = dynamic(
+  async () => (await import('./ImagePicker')).ImagePicker,
+  {
+    ssr: false,
+    loading: () => (
+      <div className='flex items-center justify-center text-xl h-1'>
+        Loading...
+      </div>
+    ),
+  }
+)
+
+
 export const LyricCardGenerator = () => {
   return (
     <>
       <ArtistsQuery />
+      <div className='p-2' />
+      <ImagePicker />
       <div className='p-2' />
       <div className='flex flex-row flex-wrap justify-center w-full gap-4'>
         <LyricCard />
