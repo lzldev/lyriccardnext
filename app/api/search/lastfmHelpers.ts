@@ -17,3 +17,6 @@ z.object({
 export const LASTFM_BASE = `http://ws.audioscrobbler.com/2.0/?format=json&api_key=${lastfm.api_key}`
 export const LASTFM_ARTIST_SEARCH = (query: string) =>
   LASTFM_BASE + `&method=artist.search&limit=5&artist=${query}`
+
+export const LASTFM_ARTIST_PROFILE = (artist: string) => `https://www.last.fm/music/${artist}`
+export const LASTFM_ARTIST_IMAGES = (artist_profile:string) => artist_profile+`/+images`
