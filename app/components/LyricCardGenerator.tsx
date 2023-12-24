@@ -2,15 +2,6 @@
 
 import dynamic from 'next/dynamic'
 
-const LyricCard = dynamic(async () => (await import('./LyricCard')).LyricCard, {
-  ssr: false,
-  loading: () => (
-    <div className='flex items-center justify-center text-xl flex-grow h-72'>
-      Loading...
-    </div>
-  ),
-})
-
 const ArtistsQuery = dynamic(
   async () => (await import('./ArtistQuery')).ArtistsQuery,
   {
@@ -37,6 +28,26 @@ const ImagePicker = dynamic(
 )
 
 
+const LyricCard = dynamic(async () => (await import('./LyricCard')).LyricCard, {
+  ssr: false,
+  loading: () => (
+    <div className='flex items-center justify-center text-xl flex-grow h-72'>
+      Loading...
+    </div>
+  ),
+})
+
+
+const LyricCardOptions = dynamic(async () => (await import('./LyricCardOptions')).LyricCardOptions, {
+  ssr: false,
+  loading: () => (
+    <div className='flex items-center justify-center text-xl flex-grow h-72'>
+      Loading...
+    </div>
+  ),
+})
+
+
 export const LyricCardGenerator = () => {
   return (
     <>
@@ -47,6 +58,7 @@ export const LyricCardGenerator = () => {
       <div className='flex flex-row flex-wrap justify-center w-full gap-4'>
         <LyricCard />
         <LyricCard vertical />
+        <LyricCardOptions />
       </div>
     </>
   )

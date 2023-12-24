@@ -3,19 +3,33 @@
 import clsx from 'clsx'
 import html2canvas from 'html2canvas'
 
-import { type HTMLAttributes, useCallback, useRef } from 'react'
+import {
+  type HTMLAttributes,
+  useCallback,
+  useRef,
+} from 'react'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
 import { useArtistQueryStore } from '../stores/ArtistQueryStore'
+import { useLyricCardStore } from '../stores/LyricCardStore'
 
 type LyricCardProps = {
   vertical?: boolean
 }
 
-const LyricCard = ({vertical}:LyricCardProps) => {
+const LyricCard = ({ vertical }: LyricCardProps) => {
   const cardRef = useRef(null)
 
   const selected = useArtistImageStore((s) => s.selected)
   const artist = useArtistQueryStore((s) => s.selected)
+
+  const { content, setFooterContent, footerContent, setContent, footerColor } =
+    useLyricCardStore((s) => ({
+      content: s.content,
+      setContent: s.setContent,
+      footerContent: s.footerContent,
+      setFooterContent: s.setFooterContent,
+      footerColor: s.footerColor,
+    }))
 
   const exportCardCallback = useCallback(async () => {
     if (!cardRef.current) return
@@ -42,43 +56,48 @@ const LyricCard = ({vertical}:LyricCardProps) => {
     <div className='flex flex-col gap-y-2'>
       <div
         ref={cardRef}
-        style={{ backgroundImage: `url(${selected.src})` }}
         className={clsx(
-          'bg-accent flex flex-col max-w-full max-h-full',
-          vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]'
+          'bg-accent flex flex-col max-w-full max-h-full relative object-contain',
+          vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]',
         )}
+        style={{ backgroundImage: `url(${selected.src})` }}
       >
         <p
-          className='flex flex-col justify-end p-4 text-xl outline-none flex-grow'
+          className='flex flex-col flex-grow justify-end p-4 text-xl outline-none'
           contentEditable
+          spellCheck={false}
           suppressContentEditableWarning
+          onBlur={setContent}
+          dangerouslySetInnerHTML={{
+            __html: content,
+          }}
+        />
+        <div
+          className='relative p-4 w-full bg-transparent bg-black border-t-2 isolate'
+          style={{
+            backgroundColor: footerColor,
+          }}
         >
-          Click to edit
-          <br />
-          Press enter to insert new lines <br />
-          Or just paste some text
-        </p>
-        <div className='w-full p-4 bg-transparent border-t-2 relative isolate bg-black'>
-          <input
-            defaultValue={'#000000'}
-            type='color'
-            className='outline-none inset-0 w-full h-full -z-10 absolute cursor-pointer'
-          />
           <span className='z-10 pointer-events-auto'>
             {`${artist.name}, `}
             <span
               className='outline-none'
+              spellCheck={false}
               contentEditable
               suppressContentEditableWarning
-            >{`"SONG NAME"`}</span>
+              onBlur={setFooterContent}
+              dangerouslySetInnerHTML={{
+                __html: footerContent,
+              }}
+            />
           </span>
         </div>
       </div>
       <div
-        className='group/button flex align-middle items-center p-2 transition-colors cursor-pointer select-none bg-accent hover:bg-accent-highlight active:bg-accent-dark'
+        className='flex items-center p-2 align-middle transition-colors cursor-pointer select-none group/button bg-accent hover:bg-accent-highlight active:bg-accent-dark'
         onClick={exportCardCallback}
       >
-        <DownloadIcon className='group-hover/button:scale-110 size-5 mx-1' />
+        <DownloadIcon className='mx-1 size-5 group-hover/button:scale-110' />
         download
       </div>
     </div>
