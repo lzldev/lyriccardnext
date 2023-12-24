@@ -16,18 +16,18 @@ const ArtistsQuery = () => {
       pickArtist: store.pickArtist,
     }))
 
-  const artists = result?.artists?.items
+  const artists = result?.results.artistmatches.artist
   const foundArtists = artists?.length && artists?.length > 0
 
   return (
-    <div className='relative flex flex-col w-full'>
+    <div className='flex relative flex-col w-full'>
       {loading && (
-        <p className='absolute right-4 inset-y-0 align-middle h-full'>
+        <p className='absolute inset-y-0 right-4 h-full align-middle'>
           loading...
         </p>
       )}
       <input
-        className='flex w-full max-w-full min-w-0 p-1 outline-none bg-neutral-700 focus:outline-accent-highlight ring-1 ring-accent'
+        className='flex p-1 w-full min-w-0 max-w-full ring-1 outline-none bg-neutral-700 ring-accent focus:outline-accent-highlight'
         placeholder='Search Artist'
         type='text'
         value={query}
@@ -41,7 +41,7 @@ const ArtistsQuery = () => {
       <div
         className={clsx(
           'absolute -bottom-[5rem] z-10 h-[5rem] bg-neutral-600 w-full overflow-y-scroll pointer-events-none',
-          !showDropDown || !foundArtists ? 'hidden' : ''
+          !showDropDown || !foundArtists ? 'hidden' : '',
         )}
       >
         {artists?.map((item, idx) => (
