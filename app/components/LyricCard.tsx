@@ -3,11 +3,7 @@
 import clsx from 'clsx'
 import html2canvas from 'html2canvas'
 
-import {
-  type HTMLAttributes,
-  useCallback,
-  useRef,
-} from 'react'
+import { type HTMLAttributes, useCallback, useRef } from 'react'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
 import { useArtistQueryStore } from '../stores/ArtistQueryStore'
 import { useLyricCardStore } from '../stores/LyricCardStore'
@@ -22,14 +18,23 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
   const selected = useArtistImageStore((s) => s.selected)
   const artist = useArtistQueryStore((s) => s.selected)
 
-  const { content, setFooterContent, footerContent, setContent, footerColor } =
-    useLyricCardStore((s) => ({
-      content: s.content,
-      setContent: s.setContent,
-      footerContent: s.footerContent,
-      setFooterContent: s.setFooterContent,
-      footerColor: s.footerColor,
-    }))
+  const {
+    content,
+    setFooterContent,
+    footerContent,
+    setContent,
+    footerColor,
+    cardMode,
+    fontSize,
+  } = useLyricCardStore((s) => ({
+    content: s.content,
+    setContent: s.setContent,
+    footerContent: s.footerContent,
+    setFooterContent: s.setFooterContent,
+    footerColor: s.footerColor,
+    fontSize: s.fontSize,
+    cardMode: s.cardMode,
+  }))
 
   const exportCardCallback = useCallback(async () => {
     if (!cardRef.current) return
@@ -57,21 +62,30 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
       <div
         ref={cardRef}
         className={clsx(
-          'bg-accent flex flex-col max-w-full max-h-full relative object-contain',
+          'bg-accent flex flex-col max-w-full relative object-contain overflow-hidden',
           vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]',
         )}
         style={{ backgroundImage: `url(${selected.src})` }}
       >
-        <p
-          className='flex flex-col flex-grow justify-end p-4 text-xl outline-none'
-          contentEditable
-          spellCheck={false}
-          suppressContentEditableWarning
-          onBlur={setContent}
-          dangerouslySetInnerHTML={{
-            __html: content,
-          }}
-        />
+        <div className='flex flex-grow flex-col-reverse'>
+          <p
+            className={clsx(
+              'flex w-fit p-4 outline-none bg-clip-content',
+              cardMode === 'dark' && 'bg-black text-white',
+              cardMode === 'light' && 'bg-white text-black',
+              fontSize === 'sm' && 'text-md',
+              fontSize === 'md' && 'text-xl',
+              fontSize === 'lg' && 'text-2xl',
+            )}
+            contentEditable
+            spellCheck={false}
+            suppressContentEditableWarning
+            onBlur={setContent}
+            dangerouslySetInnerHTML={{
+              __html: content,
+            }}
+          />
+        </div>
         <div
           className='relative p-4 w-full bg-transparent bg-black border-t-2 isolate'
           style={{

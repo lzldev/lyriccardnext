@@ -18,23 +18,12 @@ export default function RootLayout({
       <body
         className={clsx(
           'bg-background text-dark selection:bg-accent-highlight',
-          Font.className
+          Font.className,
         )}
       >
         <HydrationOverlay>
           <main className='flex flex-col w-full h-screen min-h-screen'>
             {children}
-            <footer className='flex flex-row-reverse w-full px-4 py-4 tracking-tighter'>
-              <span className='select-none'>
-                source @
-                <a
-                  className='font-semibold hover:underline'
-                  href='https://github.com/lzldev/'
-                >
-                  lzldev
-                </a>
-              </span>
-            </footer>
           </main>
         </HydrationOverlay>
       </body>

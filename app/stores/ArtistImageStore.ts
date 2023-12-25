@@ -52,7 +52,6 @@ useArtistQueryStore.subscribe(
 
     useArtistImageStore.setState(() => ({
       result: res,
-      selected: null,
       loading: false,
     }))
   },
