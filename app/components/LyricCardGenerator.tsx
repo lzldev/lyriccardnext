@@ -49,11 +49,9 @@ const LyricCardOptions = dynamic(
 
 export const LyricCardGenerator = () => {
   return (
-    <div className='flex w-full flex-col md:max-w-6xl'>
+    <div className='flex w-full flex-col gap-y-2 md:max-w-6xl'>
       <ArtistsQuery />
-      <div className='p-2' />
       <ImagePicker />
-      <div className='p-2' />
       <div className='flex w-full flex-row flex-wrap justify-center gap-4'>
         <LyricCard />
         <LyricCard vertical />

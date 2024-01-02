@@ -6,19 +6,26 @@ import {
 } from '../../search/lastfmHelpers'
 import * as cheerio from 'cheerio'
 
-export type LyricCardImageResponse = {
+export type LyricCardImage = {
   src: string
   alt: string
 }
 
-export async function GET(request: NextRequest) {
+export type ArtistImagesResponse = {
+  result: LyricCardImage[]
+  hasNextPage: boolean
+}
+
+export async function GET(
+  request: NextRequest,
+): Promise<NextResponse<ArtistImagesResponse>> {
   const { searchParams } = new URL(request.url)
 
   const artist = searchParams.get('a')
   const pagination = searchParams.get('p')
 
   if (!artist) {
-    return InvalidDataResponse()
+    throw InvalidDataResponse()
   }
 
   const res = await fetch(
@@ -29,7 +36,7 @@ export async function GET(request: NextRequest) {
 
   const page = cheerio.load(data)
 
-  const images: LyricCardImageResponse[] = []
+  const images: LyricCardImage[] = []
 
   page('.image-list-item>img:first-of-type').each((_, el) => {
     images.push({
@@ -38,5 +45,10 @@ export async function GET(request: NextRequest) {
     })
   })
 
-  return NextResponse.json(images)
+  const hasNextPage = !!page('.pagination-next').length
+
+  return NextResponse.json({
+    result: images,
+    hasNextPage,
+  })
 }
