@@ -3,19 +3,13 @@
 import clsx from 'clsx'
 import html2canvas from 'html2canvas'
 
-import {
-  type HTMLAttributes,
-  useCallback,
-  useRef,
-  useEffect,
-  useState,
-  useMemo,
-} from 'react'
+import { type HTMLAttributes, useCallback, useRef, useMemo, useId } from 'react'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
 import { useArtistQueryStore } from '../stores/ArtistQueryStore'
 import { useLyricCardStore } from '../stores/LyricCardStore'
 import { createPortal } from 'react-dom'
 import { isDark, rgbToHsl } from '../utils/colors'
+import { DraggableImage } from './DraggableImage'
 
 type LyricCardProps = {
   vertical?: boolean
@@ -56,6 +50,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
       backgroundColor: null,
       scale: 2,
       useCORS: true,
+      removeContainer: true,
     })
 
     const screenshot = canvas.toDataURL('image/png')
@@ -75,25 +70,26 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
       <div
         ref={cardRef}
         className={clsx(
-          'relative flex h-[18rem] w-full flex-col overflow-hidden bg-accent object-contain',
-          // vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]'
+          'relative flex h-[22rem] w-full flex-col overflow-hidden bg-accent object-contain',
           vertical ? 'aspect-[5/4]' : 'aspect-[16/9]',
         )}
-        style={{ backgroundImage: `url(${selected.src})` }}
       >
-        <div className={clsx('flex flex-grow flex-col')}>
+        <DraggableImage src={selected.src} className='absolute inset-0' />
+        <div
+          className={clsx('pointer-events-none z-20 flex flex-grow flex-col')}
+        >
           <p
             className={clsx(
-              'flex h-fit w-fit bg-clip-content p-4 outline-none',
+              'pointer-events-auto flex h-fit w-fit bg-clip-content p-4 outline-none',
               cardMode === 'dark' && 'bg-black text-white',
               cardMode === 'light' && 'bg-white text-black',
               fontSize === 'sm' && 'text-md',
               fontSize === 'md' && 'text-xl',
               fontSize === 'lg' && 'text-2xl',
-              lyricsAlign === 'br' && 'mt-auto',
-              lyricsAlign === 'bl' && 'mt-auto self-end',
-              lyricsAlign === 'tl' && 'self-end',
-              lyricsAlign === 'tr' && '',
+              lyricsAlign === 'bl' && 'mt-auto',
+              lyricsAlign === 'br' && 'mt-auto self-end',
+              lyricsAlign === 'tr' && 'self-end',
+              lyricsAlign === 'tl' && '',
             )}
             contentEditable
             spellCheck={false}
@@ -106,7 +102,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
         </div>
         <div
           className={clsx(
-            'relative isolate w-full border-t-2 bg-transparent p-4',
+            'z-20 w-full border-t-2 bg-transparent p-4',
             isFooterDark && 'border-white text-white',
             !isFooterDark && 'border-black text-black',
           )}
@@ -114,7 +110,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
             backgroundColor: footerColor,
           }}
         >
-          <span className='pointer-events-auto z-10'>
+          <span className='pointer-events-auto'>
             {`${artist.name}, `}
             <span
               className='outline-none'
