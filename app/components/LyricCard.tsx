@@ -42,6 +42,10 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
   }))
 
   const isFooterDark = useMemo(() => isDark(footerColor), [footerColor])
+  const imageURI = useMemo(
+    () => selected?.src.replace('avatar170s', '700x0'),
+    [selected],
+  )
 
   const exportCardCallback = useCallback(async () => {
     if (!cardRef.current) return
@@ -67,7 +71,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
           vertical ? 'aspect-[5/4]' : 'aspect-[16/9]',
         )}
       >
-        <DraggableImage src={selected.src} className='absolute inset-0' />
+        <DraggableImage src={imageURI} className='absolute max-w-none' />
         <div
           className={clsx('pointer-events-none z-20 flex flex-grow flex-col')}
         >
