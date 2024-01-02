@@ -24,7 +24,7 @@ interface LyricCardStore {
 }
 
 const useLyricCardStore = create<LyricCardStore>()((set) => ({
-  content: 'Click here to Edit this text<br/> or just paste some text',
+  content: 'Click here to Edit this text<br/> or just paste something',
   setContent: (evt) => {
     set({ content: xss(evt.currentTarget.innerHTML) })
   },

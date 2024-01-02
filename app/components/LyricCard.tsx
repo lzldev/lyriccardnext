@@ -58,12 +58,13 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
   }
 
   return (
-    <div className='flex flex-col gap-y-2'>
+    <div className={clsx('flex flex-col gap-y-2')}>
       <div
         ref={cardRef}
         className={clsx(
-          'bg-accent flex flex-col max-w-full relative object-contain overflow-hidden',
-          vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]',
+          'bg-accent w-full h-[18rem] flex flex-col relative object-contain overflow-hidden',
+          // vertical ? 'h-[30rem] w-[30rem]' : 'h-[20rem] w-[30rem]'
+          vertical ? 'aspect-[5/4]' : 'aspect-[16/9]'
         )}
         style={{ backgroundImage: `url(${selected.src})` }}
       >
@@ -75,7 +76,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
               cardMode === 'light' && 'bg-white text-black',
               fontSize === 'sm' && 'text-md',
               fontSize === 'md' && 'text-xl',
-              fontSize === 'lg' && 'text-2xl',
+              fontSize === 'lg' && 'text-2xl'
             )}
             contentEditable
             spellCheck={false}
@@ -134,4 +135,5 @@ const DownloadIcon = (props: HTMLAttributes<SVGElement>) => {
     </svg>
   )
 }
+
 export { LyricCard }
