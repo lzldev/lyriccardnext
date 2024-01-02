@@ -20,5 +20,28 @@ export const LASTFM_ARTIST_SEARCH = (query: string) =>
 
 export const LASTFM_ARTIST_PROFILE = (artist: string) =>
   `https://www.last.fm/music/${artist}`
-export const LASTFM_ARTIST_IMAGES = (artist_profile: string) =>
-  artist_profile + `/+images`
+
+export const LASTFM_ARTIST_IMAGES = (
+  artist: string,
+  params?: {
+    page?: string
+  },
+) => {
+  const searchParams = (() => {
+    if (!params) {
+      return ''
+    }
+
+    let search = '?'
+
+    if (params.page) {
+      try {
+        const n = parseInt(params.page)
+        search += `&page=${n}`
+      } catch {}
+    }
+    return search
+  })()
+
+  return LASTFM_ARTIST_PROFILE(artist) + `/+images` + searchParams
+}
