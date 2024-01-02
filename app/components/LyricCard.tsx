@@ -77,9 +77,9 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
         >
           <p
             className={clsx(
-              'pointer-events-auto flex h-fit w-fit bg-clip-content p-4 outline-none',
-              cardMode === 'dark' && 'bg-black text-white',
-              cardMode === 'light' && 'bg-white text-black',
+              'pointer-events-auto flex h-fit w-fit flex-col gap-y-1 bg-clip-content p-4 outline-none *-[div]:flex *-[div]:w-fit *-[div]:p-1 *-[div]:px-2',
+              cardMode === 'dark' && 'text-white *-[div]:bg-black',
+              cardMode === 'light' && 'text-black *-[div]:bg-white',
               fontSize === 'sm' && 'text-md',
               fontSize === 'md' && 'text-xl',
               fontSize === 'lg' && 'text-2xl',

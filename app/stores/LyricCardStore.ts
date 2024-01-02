@@ -8,6 +8,10 @@ const LyricCardModes = ['dark', 'light'] as const
 const FontSizes = ['md', 'lg', 'sm'] as const
 const TextCorners = ['br', 'bl', 'tr', 'tl'] as const
 
+const defaultContent = `
+<div>Click here to Edit this text</div>
+<div>or just paste something</div>`
+
 export type LyricCardModes = (typeof LyricCardModes)[number]
 export type FontSizes = (typeof FontSizes)[number]
 export type LyricCorners = (typeof TextCorners)[number]
@@ -33,7 +37,7 @@ export interface LyricCardStore {
 }
 
 const useLyricCardStore = create<LyricCardStore>()((set) => ({
-  content: 'Click here to Edit this text<br/> or just paste something',
+  content: defaultContent,
   setContent: (evt) => {
     set({ content: xss(evt.currentTarget.innerHTML) })
   },
