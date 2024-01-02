@@ -65,11 +65,31 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
   return (
     <div
       className={clsx(
-        'flex h-full w-full min-w-[300px] flex-1 gap-y-2 md:min-w-fit',
+        'relative flex h-full w-full min-w-[300px] flex-1 flex-col gap-y-2 md:min-w-fit',
         vertical && 'flex-grow',
         !vertical && 'flex-shrink',
       )}
     >
+      <div
+        onClick={exportCardCallback}
+        className={clsx(
+          'group/button absolute bottom-6 right-4 z-50 flex cursor-pointer flex-row-reverse overflow-clip text-dark-highlight',
+          isFooterDark && 'border-card-dark text-card-dark',
+          !isFooterDark && 'border-card-light text-card-light',
+        )}
+      >
+        <DownloadIcon className='mx-1 flex size-5 rounded-l-full' />
+        <div className='-mr-[1.15rem] ml-2 flex w-4 rounded-l-full'></div>
+        <div className={'-z-10 flex flex-grow overflow-clip rounded-r-full'}>
+          <span
+            className={clsx(
+              'translate-x-full transition-transform group-hover/button:translate-x-0',
+            )}
+          >
+            download
+          </span>
+        </div>
+      </div>
       <div
         ref={cardRef}
         className={clsx(
@@ -95,7 +115,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
               cardMode === 'dark' &&
                 'text-card-dark *-[div]:bg-card-dark-background',
               cardMode === 'light' &&
-                '*-[div]:bg-card-light-background text-card-light',
+                'text-card-light *-[div]:bg-card-light-background',
               fontSize === 'sm' && 'text-md',
               fontSize === 'md' && 'text-xl',
               fontSize === 'lg' && 'text-2xl',
@@ -138,17 +158,6 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
           </span>
         </div>
       </div>
-      {document.getElementById('bt-downloads') &&
-        createPortal(
-          <div
-            className='group/button text-dark-highlight hover:bg-accent-background flex cursor-pointer select-none items-center bg-accent p-2 align-middle transition-colors active:bg-accent-dark'
-            onClick={exportCardCallback}
-          >
-            <DownloadIcon className='mx-1 size-5 group-hover/button:scale-110' />
-            download
-          </div>,
-          document.getElementById('bt-downloads')!,
-        )}
     </div>
   )
 }

@@ -64,7 +64,6 @@ const ArtistsQuery = () => {
             tabIndex={idx}
             className='pointer-events-auto flex select-none hover:bg-dark-highlight'
             onClick={(evt) => {
-              console.log('something')
               evt.preventDefault()
               evt.stopPropagation()
 

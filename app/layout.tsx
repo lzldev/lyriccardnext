@@ -17,7 +17,7 @@ export default function RootLayout({
     <html lang='en'>
       <body
         className={clsx(
-          'flex min-h-full w-full max-w-full flex-col bg-background text-dark selection:bg-accent-highlight',
+          'selection:bg-accent-highlight flex min-h-full w-full max-w-full flex-col bg-background text-dark antialiased selection:bg-accent',
           Font.className,
         )}
       >

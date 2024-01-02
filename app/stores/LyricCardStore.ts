@@ -45,7 +45,7 @@ const useLyricCardStore = create<LyricCardStore>()((set) => ({
   setFooterContent: (evt) => {
     set({ footerContent: xss(evt.currentTarget.innerHTML) })
   },
-  footerColor: '#000000',
+  footerColor: '#0a0a0a',
   cardMode: 'dark',
   fontSize: 'md',
   lyricsAlign: 'bl',

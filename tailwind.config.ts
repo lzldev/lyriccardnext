@@ -2,6 +2,19 @@ import { Config } from 'tailwindcss'
 import colors from 'tailwindcss/colors'
 
 const customColors = {
+  'pink-swan': {
+    '50': 'hsl(0, 14%, 97%)',
+    '100': 'hsl(0, 13%, 94%)',
+    '200': 'hsl(0, 11%, 89%)',
+    '300': 'hsl(0, 12%, 82%)',
+    '400': 'hsl(0, 11%, 71%)',
+    '500': 'hsl(0, 10%, 60%)',
+    '600': 'hsl(0, 9%, 51%)',
+    '700': 'hsl(0, 9%, 42%)',
+    '800': 'hsl(0, 9%, 35%)',
+    '900': 'hsl(0, 8%, 31%)',
+    '950': 'hsl(0, 9%, 15%)',
+  },
   sandstone: {
     50: 'hsl(30, 8%, 95%)',
     100: 'hsl(24, 8%, 88%)',
@@ -42,8 +55,19 @@ const customColors = {
     '950': 'hsl(270, 10%, 8%)',
   },
   coolPink: {
+    '50': '#fff1f4',
+    '100': '#ffe4e9',
+    '200': '#fdced9',
+    '300': '#fcb5c6',
+    '400': '#f87496',
+    '500': '#f14274',
+    '600': '#dd2160',
+    '700': '#bb1551',
+    '800': '#9c154a',
+    '900': '#861545',
+    '950': '#4b0622',
     DEFAULT: '#fcb5c6',
-    dark: '#f14274',
+    dark: '#f87496',
   },
   cream: {
     '50': '#fefde8',
@@ -61,7 +85,7 @@ const config = {
     extend: {
       colors: {
         accent: {
-          DEFAULT: colors.pink['500'],
+          DEFAULT: customColors.coolPink['400'],
           background: colors.pink['400'],
         },
         background: {
@@ -70,7 +94,7 @@ const config = {
         },
         /* TEXT */
         dark: {
-          DEFAULT: customColors.coolPink['DEFAULT'],
+          DEFAULT: customColors.coolPink['200'],
           background: {
             DEFAULT: customColors.woodsmoke['950'],
             dimmed: customColors.woodsmoke['900'],

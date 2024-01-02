@@ -59,7 +59,9 @@ export const DraggableImage = (props: DraggableImageProps) => {
         }
 
         const el = imgRef.current!
-        const parent = el.parentElement!
+        //The absolute relative container is 2 DIVs up
+        //TODO: Add Ref prop for that
+        const parent = el.parentElement!.parentElement!
 
         const { offsetLeft, offsetTop } = parent
         const { width, height } = evt.currentTarget

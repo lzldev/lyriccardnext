@@ -30,7 +30,7 @@ const ImagePicker = () => {
 
   return (
     <>
-      <div className='flex w-full scroll-m-6 gap-x-4 overflow-x-scroll scroll-smooth border-x  border-t border-accent p-2'>
+      <div className='flex w-full scroll-m-6 gap-x-4 overflow-x-scroll scroll-smooth border-x border-t border-accent p-2'>
         {result.map((image, idx) => (
           <Image
             key={image.src + idx}
@@ -55,7 +55,7 @@ const ImagePicker = () => {
         {hasNextPage && (
           <div
             onClick={getNext}
-            className='flex size-24 min-w-24 cursor-pointer select-none flex-col items-center justify-center bg-neutral-400 align-middle text-6xl ring-1 ring-accent hover:bg-neutral-300'
+            className='flex size-24 min-w-24 cursor-pointer select-none flex-col items-center justify-center bg-dark-background-dimmed align-middle text-6xl ring-1 ring-dark hover:bg-dark hover:text-dark-highlight hover:ring-dark-highlight'
           >
             +
           </div>
