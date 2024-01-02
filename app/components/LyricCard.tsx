@@ -3,10 +3,19 @@
 import clsx from 'clsx'
 import html2canvas from 'html2canvas'
 
-import { type HTMLAttributes, useCallback, useRef } from 'react'
+import {
+  type HTMLAttributes,
+  useCallback,
+  useRef,
+  useEffect,
+  useState,
+  useMemo,
+} from 'react'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
 import { useArtistQueryStore } from '../stores/ArtistQueryStore'
 import { useLyricCardStore } from '../stores/LyricCardStore'
+import { createPortal } from 'react-dom'
+import { isDark, rgbToHsl } from '../utils/colors'
 
 type LyricCardProps = {
   vertical?: boolean
@@ -26,6 +35,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
     footerColor,
     cardMode,
     fontSize,
+    lyricsAlign,
   } = useLyricCardStore((s) => ({
     content: s.content,
     setContent: s.setContent,
@@ -34,7 +44,10 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
     footerColor: s.footerColor,
     fontSize: s.fontSize,
     cardMode: s.cardMode,
+    lyricsAlign: s.lyricsAlign,
   }))
+
+  const isFooterDark = useMemo(() => isDark(footerColor), [footerColor])
 
   const exportCardCallback = useCallback(async () => {
     if (!cardRef.current) return
@@ -68,15 +81,19 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
         )}
         style={{ backgroundImage: `url(${selected.src})` }}
       >
-        <div className='flex flex-grow flex-col-reverse'>
+        <div className={clsx('flex flex-grow flex-col')}>
           <p
             className={clsx(
-              'flex w-fit bg-clip-content p-4 outline-none',
+              'flex h-fit w-fit bg-clip-content p-4 outline-none',
               cardMode === 'dark' && 'bg-black text-white',
               cardMode === 'light' && 'bg-white text-black',
               fontSize === 'sm' && 'text-md',
               fontSize === 'md' && 'text-xl',
               fontSize === 'lg' && 'text-2xl',
+              lyricsAlign === 'br' && 'mt-auto',
+              lyricsAlign === 'bl' && 'mt-auto self-end',
+              lyricsAlign === 'tl' && 'self-end',
+              lyricsAlign === 'tr' && '',
             )}
             contentEditable
             spellCheck={false}
@@ -88,7 +105,11 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
           />
         </div>
         <div
-          className='relative isolate w-full border-t-2 bg-black bg-transparent p-4'
+          className={clsx(
+            'relative isolate w-full border-t-2 bg-transparent p-4',
+            isFooterDark && 'border-white text-white',
+            !isFooterDark && 'border-black text-black',
+          )}
           style={{
             backgroundColor: footerColor,
           }}
@@ -108,13 +129,17 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
           </span>
         </div>
       </div>
-      <div
-        className='group/button flex cursor-pointer select-none items-center bg-accent p-2 align-middle transition-colors hover:bg-accent-highlight active:bg-accent-dark'
-        onClick={exportCardCallback}
-      >
-        <DownloadIcon className='mx-1 size-5 group-hover/button:scale-110' />
-        download
-      </div>
+      {document.getElementById('bt-downloads') &&
+        createPortal(
+          <div
+            className='group/button flex cursor-pointer select-none items-center bg-accent p-2 align-middle transition-colors hover:bg-accent-highlight active:bg-accent-dark'
+            onClick={exportCardCallback}
+          >
+            <DownloadIcon className='mx-1 size-5 group-hover/button:scale-110' />
+            download
+          </div>,
+          document.getElementById('bt-downloads')!,
+        )}
     </div>
   )
 }

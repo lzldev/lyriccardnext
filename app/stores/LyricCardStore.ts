@@ -6,11 +6,13 @@ import type { FocusEvent } from 'react'
 
 const LyricCardModes = ['dark', 'light'] as const
 const FontSizes = ['md', 'lg', 'sm'] as const
+const TextCorners = ['br', 'bl', 'tr', 'tl'] as const
 
 export type LyricCardModes = (typeof LyricCardModes)[number]
 export type FontSizes = (typeof FontSizes)[number]
+export type LyricCorners = (typeof TextCorners)[number]
 
-interface LyricCardStore {
+export interface LyricCardStore {
   content: string
   setContent: (evt: FocusEvent<HTMLDivElement, Element>) => void
   footerContent: string
@@ -18,10 +20,11 @@ interface LyricCardStore {
   footerColor: string
   cardMode: LyricCardModes
   fontSize: FontSizes
+  lyricsAlign: LyricCorners
   setLyricCardStyle: <
     TStyle extends keyof Pick<
       LyricCardStore,
-      'fontSize' | 'cardMode' | 'footerColor'
+      'fontSize' | 'cardMode' | 'footerColor' | 'lyricsAlign'
     >,
   >(
     style: TStyle,
@@ -41,6 +44,7 @@ const useLyricCardStore = create<LyricCardStore>()((set) => ({
   footerColor: '#000000',
   cardMode: 'dark',
   fontSize: 'md',
+  lyricsAlign: 'bl',
   setLyricCardStyle: (style, value) => {
     set({ [style]: value })
   },
