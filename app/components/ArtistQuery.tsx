@@ -1,11 +1,10 @@
-'use client'
-
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import { useArtistQueryStore } from '../stores/ArtistQueryStore'
 
 const ArtistsQuery = () => {
   const [showDropDown, setShowDropDown] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const { query, setArtistQuery, result, pickArtist, loading } =
     useArtistQueryStore((store) => ({
@@ -16,9 +15,20 @@ const ArtistsQuery = () => {
       pickArtist: store.pickArtist,
     }))
 
+  useEffect(() => {
+    const listener = (e: MouseEvent) => {
+      if (dropdownRef.current!.contains(e.target as any)) {
+        return
+      }
+      setShowDropDown(false)
+    }
+    document.addEventListener('mousedown', listener, false)
+    return () => document.removeEventListener('mousedown', listener, false)
+  }, [])
+
   const artists = result?.results.artistmatches.artist
   const foundArtists = artists?.length && artists?.length > 0
-
+  const showDrop = loading || !showDropDown || !foundArtists
   return (
     <div className='relative flex w-full flex-col'>
       {loading && (
@@ -27,7 +37,10 @@ const ArtistsQuery = () => {
         </p>
       )}
       <input
-        className='flex w-full min-w-0 max-w-full border border-accent bg-neutral-700 p-1 outline-none focus:outline-accent-highlight'
+        className={clsx(
+          'flex w-full min-w-0 max-w-full border-accent bg-background-highlight p-1 outline-none placeholder:text-dark',
+          showDrop && 'border-b',
+        )}
         placeholder='Search Artist'
         type='text'
         value={query}
@@ -39,22 +52,25 @@ const ArtistsQuery = () => {
         }}
       />
       <div
+        ref={dropdownRef}
         className={clsx(
-          'pointer-events-none absolute -bottom-[5rem] z-10 h-[5rem] w-full overflow-y-scroll bg-neutral-600',
-          loading || !showDropDown || !foundArtists ? 'hidden' : '',
+          'pointer-events-none absolute -bottom-[5rem] z-10 h-[5rem] w-full overflow-y-scroll border-b border-accent bg-dark-background-dimmed',
+          showDrop ? 'invisible' : '',
         )}
       >
         {artists?.map((item, idx) => (
           <div
             key={idx}
+            tabIndex={idx}
+            className='pointer-events-auto flex select-none hover:bg-dark-highlight'
             onClick={(evt) => {
+              console.log('something')
               evt.preventDefault()
               evt.stopPropagation()
 
               pickArtist(idx)
               setShowDropDown(false)
             }}
-            className='pointer-events-auto flex select-none hover:bg-neutral-500'
           >
             {item.name}
           </div>

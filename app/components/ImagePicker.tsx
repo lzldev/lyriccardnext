@@ -30,12 +30,12 @@ const ImagePicker = () => {
 
   return (
     <>
-      <div className='flex w-full gap-x-4 overflow-x-scroll p-2 ring-1 ring-accent'>
+      <div className='flex w-full scroll-m-6 gap-x-4 overflow-x-scroll scroll-smooth border-x  border-t border-accent p-2'>
         {result.map((image, idx) => (
           <Image
             key={image.src + idx}
             className={
-              'size-24 cursor-pointer bg-neutral-400 object-scale-down object-bottom ring-accent-highlight hover:ring-1'
+              'size-24 cursor-pointer bg-neutral-400 object-scale-down object-bottom ring-accent hover:ring-1'
             }
             src={image.src}
             alt={image.alt}
@@ -52,10 +52,10 @@ const ImagePicker = () => {
             SPINNER
           </div>
         )}
-        {hasNextPage && loading && (
+        {hasNextPage && (
           <div
             onClick={getNext}
-            className='flex size-24 min-w-24 cursor-pointer select-none flex-col items-center justify-center bg-neutral-400 align-middle text-6xl ring-1 ring-neutral-200 hover:bg-neutral-300'
+            className='flex size-24 min-w-24 cursor-pointer select-none flex-col items-center justify-center bg-neutral-400 align-middle text-6xl ring-1 ring-accent hover:bg-neutral-300'
           >
             +
           </div>

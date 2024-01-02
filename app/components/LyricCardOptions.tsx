@@ -34,25 +34,31 @@ const LyricCardOptions = () => {
           }}
         />
       </div>
-      <div className='flex gap-x-3'>
-        <span className='flex items-center justify-center text-center'>S</span>
+      <span className='text-dark-highlight flex items-center justify-center text-center'>
+        S
+      </span>
+      <div className='flex first:*:rounded-l-xl last:*:rounded-r-xl'>
         <OptionButton style={'cardMode'} value={'light'} />
         <OptionButton style={'cardMode'} value={'dark'} />
       </div>
-      <div className='flex gap-x-3'>
-        <span className='flex items-center justify-center text-center'>F</span>
+      <span className='text-dark-highlight flex items-center justify-center text-center'>
+        F
+      </span>
+      <div className='flex first:*:rounded-l-xl last:*:rounded-r-xl'>
         <OptionButton style={'fontSize'} value={'sm'} />
         <OptionButton style={'fontSize'} value={'md'} />
         <OptionButton style={'fontSize'} value={'lg'} />
       </div>
-      <div className='flex gap-x-3'>
-        <span className='flex items-center justify-center text-center'>A</span>
+      <span className='text-dark-highlight flex items-center justify-center text-center'>
+        A
+      </span>
+      <div className='flex first:*:rounded-l-xl last:*:rounded-r-xl'>
         <OptionButton style={'lyricsAlign'} value={'bl'} />
         <OptionButton style={'lyricsAlign'} value={'br'} />
         <OptionButton style={'lyricsAlign'} value={'tl'} />
         <OptionButton style={'lyricsAlign'} value={'tr'} />
       </div>
-      <div className='flex gap-x-3' id='bt-downloads'></div>
+      <div className='flex' id='bt-downloads'></div>
     </div>
   )
 }
@@ -63,8 +69,8 @@ type _OptionButtonProps = TwcComponentProps<'div'> & { $active?: boolean }
 
 const _OptionButton = twc.div<_OptionButtonProps>((props) => [
   `hover:bg-dark hover:text-accent transition-all duration-75 py-2 px-3 hover:cursor-pointer min-w-10 text-center`,
-  !props.$active && 'bg-accent-highlight',
-  props.$active && 'bg-accent',
+  !props.$active && 'bg-dark-background-dimmed',
+  props.$active && 'bg-accent text-dark-highlight',
 ])
 const OptionButton = <
   TStyle extends keyof Pick<

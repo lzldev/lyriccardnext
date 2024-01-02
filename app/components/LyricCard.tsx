@@ -92,8 +92,10 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
           <p
             className={clsx(
               'pointer-events-none flex h-fit w-fit flex-col gap-y-1 overflow-clip p-4 outline-none *-[div]:pointer-events-auto *-[div]:w-fit *-[div]:max-w-full *-[div]:p-1 *-[div]:px-2',
-              cardMode === 'dark' && 'text-white *-[div]:bg-black',
-              cardMode === 'light' && 'text-black *-[div]:bg-white',
+              cardMode === 'dark' &&
+                'text-card-dark *-[div]:bg-card-dark-background',
+              cardMode === 'light' &&
+                '*-[div]:bg-card-light-background text-card-light',
               fontSize === 'sm' && 'text-md',
               fontSize === 'md' && 'text-xl',
               fontSize === 'lg' && 'text-2xl',
@@ -114,8 +116,8 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
         <div
           className={clsx(
             'z-20 flex h-fit w-full border-t-2 bg-transparent p-4 py-6',
-            isFooterDark && 'border-white text-white',
-            !isFooterDark && 'border-black text-black',
+            isFooterDark && 'border-card-dark text-card-dark',
+            !isFooterDark && 'border-card-light text-card-light',
           )}
           style={{
             backgroundColor: footerColor,
@@ -139,7 +141,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
       {document.getElementById('bt-downloads') &&
         createPortal(
           <div
-            className='group/button flex cursor-pointer select-none items-center bg-accent p-2 align-middle transition-colors hover:bg-accent-highlight active:bg-accent-dark'
+            className='group/button text-dark-highlight hover:bg-accent-background flex cursor-pointer select-none items-center bg-accent p-2 align-middle transition-colors active:bg-accent-dark'
             onClick={exportCardCallback}
           >
             <DownloadIcon className='mx-1 size-5 group-hover/button:scale-110' />

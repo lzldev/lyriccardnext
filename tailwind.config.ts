@@ -45,6 +45,9 @@ const customColors = {
     DEFAULT: '#fcb5c6',
     dark: '#f14274',
   },
+  cream: {
+    '50': '#fefde8',
+  },
 } as const
 
 const config = {
@@ -59,15 +62,30 @@ const config = {
       colors: {
         accent: {
           DEFAULT: colors.pink['500'],
-          highlight: colors.pink['400'],
-          dark: colors.pink['600'],
+          background: colors.pink['400'],
         },
         background: {
           DEFAULT: customColors.woodsmoke['950'],
+          highlight: customColors.woodsmoke['900'],
         },
         /* TEXT */
         dark: {
-          DEFAULT: colors.neutral['100'],
+          DEFAULT: customColors.coolPink['DEFAULT'],
+          background: {
+            DEFAULT: customColors.woodsmoke['950'],
+            dimmed: customColors.woodsmoke['900'],
+          },
+          highlight: customColors.cream['50'],
+        },
+        card: {
+          light: {
+            background: colors.neutral['50'],
+            DEFAULT: colors.neutral['950'],
+          },
+          dark: {
+            background: colors.neutral['950'],
+            DEFAULT: colors.neutral['50'],
+          },
         },
       },
     },

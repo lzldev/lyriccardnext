@@ -6,12 +6,12 @@ export default function Home() {
       <LyricCardGenerator />
       <footer className='flex w-full justify-end px-4 py-4 tracking-tighter'>
         <span className='select-none'>
-          source @
+          source
           <a
-            className='font-semibold hover:underline'
+            className='text-dark-highlight font-semibold'
             href='https://github.com/lzldev/'
           >
-            lzldev
+            {' @lzldev'}
           </a>
         </span>
       </footer>
