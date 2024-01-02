@@ -58,7 +58,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
     link.click()
   }, [cardRef])
 
-  if (!artist || !selected) {
+  if (!artist || !selected || !imageURI) {
     return <></>
   }
 
@@ -71,7 +71,13 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
           vertical ? 'aspect-[5/4]' : 'aspect-[16/9]',
         )}
       >
-        <DraggableImage src={imageURI} className='absolute max-w-none' />
+        <DraggableImage
+          src={imageURI}
+          alt={selected.alt}
+          width={700}
+          height={700}
+          className='absolute max-w-none'
+        />
         <div
           className={clsx('pointer-events-none z-20 flex flex-grow flex-col')}
         >

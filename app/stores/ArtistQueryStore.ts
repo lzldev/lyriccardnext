@@ -43,30 +43,20 @@ interface ArtistQueryStore {
 
 const useArtistQueryStore = create<ArtistQueryStore>()(
   subscribeWithSelector(
-    devtools(
-      persist(
-        (set) => ({
-          query: initialQuery?.query ?? '',
-          setArtistQuery(query) {
-            set(() => ({ query }))
-          },
-          loading: false,
-          result: null,
-          selected: null,
-          pickArtist(idx) {
-            set((s) => ({
-              selected: s.result?.results.artistmatches.artist.at(idx),
-            }))
-          },
-        }),
-        {
-          name: 'ArtistQueryStore',
-          partialize: (state) => ({
-            selected: state.selected,
-          }),
-        },
-      ),
-    ),
+    devtools((set) => ({
+      query: initialQuery?.query ?? '',
+      setArtistQuery(query) {
+        set(() => ({ query }))
+      },
+      loading: false,
+      result: null,
+      selected: null,
+      pickArtist(idx) {
+        set((s) => ({
+          selected: s.result?.results.artistmatches.artist.at(idx),
+        }))
+      },
+    })),
   ),
 )
 

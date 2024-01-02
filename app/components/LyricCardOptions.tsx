@@ -47,7 +47,7 @@ const LyricCardOptions = () => {
         <OptionButton style={'fontSize'} value={'lg'} />
       </div>
       <div className='flex gap-x-3'>
-        <span className='flex items-center justify-center text-center'>F</span>
+        <span className='flex items-center justify-center text-center'>A</span>
         <OptionButton style={'lyricsAlign'} value={'bl'} />
         <OptionButton style={'lyricsAlign'} value={'br'} />
         <OptionButton style={'lyricsAlign'} value={'tl'} />

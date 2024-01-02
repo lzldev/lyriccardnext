@@ -30,11 +30,39 @@ const useArtistImageStore = create<ArtistImageStore>()(
     },
     nextPage: () => {
       set((s) => ({ page: s.page + 1, loading: true }))
-
       updateImages()
     },
   })),
 )
+
+const updateImages = async () => {
+  const { selected: artist } = useArtistQueryStore.getState()
+
+  if (!artist) return
+
+  const { page } = useArtistImageStore.getState()
+
+  const data = await w
+    .get(`/api/artist/images?a=${artist.name}&p=${page}`)
+    .json<ArtistImagesResponse>()
+    .catch((e) => {
+      console.error(e)
+    })
+
+  if (!data) {
+    useArtistImageStore.setState(() => ({
+      loading: false,
+    }))
+
+    return
+  }
+
+  useArtistImageStore.setState((s) => ({
+    result: s.result ? [...s.result, ...data.result] : data.result,
+    hasNextPage: data.hasNextPage,
+    loading: false,
+  }))
+}
 
 useArtistQueryStore.subscribe(
   (s) => s.selected,
@@ -58,35 +86,9 @@ useArtistQueryStore.subscribe(
 
     updateImages()
   },
+  {
+    fireImmediately: true,
+  },
 )
-
-const updateImages = async () => {
-  const { selected: artist } = useArtistQueryStore.getState()
-
-  if (!artist) return
-
-  const { nextPage, page } = useArtistImageStore.getState()
-
-  const data = await w
-    .get(`/api/artist/images?a=${artist.name}&p=${page}`)
-    .json<ArtistImagesResponse>()
-    .catch((e) => {
-      console.error(e)
-    })
-
-  if (!data) {
-    useArtistImageStore.setState(() => ({
-      loading: false,
-    }))
-
-    return
-  }
-
-  useArtistImageStore.setState((s) => ({
-    result: s.result ? [...s.result, ...data.result] : data.result,
-    hasNextPage: data.hasNextPage,
-    loading: false,
-  }))
-}
 
 export { useArtistImageStore }

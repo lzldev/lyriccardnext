@@ -1,30 +1,44 @@
 'use client'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
+import Image from 'next/image'
 
 const ImagePicker = () => {
-  const { result, pickImage, page, hasNextPage, getNext } = useArtistImageStore(
-    (s) => ({
+  const { result, pickImage, hasNextPage, getNext, loading } =
+    useArtistImageStore((s) => ({
       result: s.result,
-      page: s.page,
       hasNextPage: s.hasNextPage,
       getNext: s.nextPage,
       pickImage: s.pickImage,
-    }),
-  )
+      loading: s.loading,
+    }))
 
-  if (!result) {
+  if (!result && loading) {
+    return (
+      <div className='flex h-24 w-full items-center justify-center p-2 align-middle text-3xl'>
+        loading...
+      </div>
+    )
+  } else if (!result) {
     return <></>
+  } else if (result.length === 0) {
+    return (
+      <div className='flex h-24 w-full items-center justify-center p-2 align-middle text-3xl'>
+        {result.length === 0 && 'no results'}
+      </div>
+    )
   }
 
   return (
     <>
       <div className='flex w-full gap-x-4 overflow-x-scroll p-2 ring-1 ring-accent'>
         {result.map((image, idx) => (
-          <img
+          <Image
             key={image.src + idx}
             className={`size-24 cursor-pointer ring-accent-highlight hover:ring-1`}
             src={image.src}
             alt={image.alt}
+            width={700}
+            height={700}
             onClick={() => pickImage(idx)}
           />
         ))}
@@ -36,9 +50,6 @@ const ImagePicker = () => {
             +
           </div>
         )}
-      </div>
-      <div className='flex w-full justify-end align-middle tracking-tighter text-accent'>
-        <span className='text-white'>{page}</span>
       </div>
     </>
   )

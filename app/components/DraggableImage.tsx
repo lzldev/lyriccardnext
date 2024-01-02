@@ -2,10 +2,11 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
 
-import { useRef, type HTMLAttributes, useState, useEffect } from 'react'
+import Image, { ImageProps } from 'next/image'
+import { useRef, useState, useEffect } from 'react'
 import { flushSync } from 'react-dom'
 
-type DraggableImageProps = React.ImgHTMLAttributes<any>
+type DraggableImageProps = ImageProps
 
 export const DraggableImage = (props: DraggableImageProps) => {
   const imgRef = useRef<HTMLImageElement>(null)
@@ -40,7 +41,7 @@ export const DraggableImage = (props: DraggableImageProps) => {
   }, [imgRef])
 
   return (
-    <img
+    <Image
       ref={imgRef}
       draggable={false}
       onMouseDown={() => {
