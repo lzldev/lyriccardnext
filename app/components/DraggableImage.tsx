@@ -22,19 +22,13 @@ export const DraggableImage = (props: DraggableImageProps) => {
       e.stopPropagation()
       e.preventDefault()
 
-      if (e.deltaY < 0) {
-        flushSync(() => {
-          el.width += 10
-          el.width += 10
-          setPos((old) => ({ x: old.x - 10, y: old.y - 10 }))
-        })
-      } else if (e.deltaY > 0) {
-        flushSync(() => {
-          el.width -= 10
-          el.width -= 10
-          setPos((old) => ({ x: old.x + 10, y: old.y + 10 }))
-        })
-      }
+      const w = el.style.width
+      const nw = parseInt(w.substring(0, w.length - 1))
+      const isUp = e.deltaY < 0
+
+      flushSync(() => {
+        el.style.width = `${isUp ? nw + 2 : Math.max(nw - 2, 0)}%`
+      })
     }
 
     el.addEventListener('wheel', listener, {
@@ -74,7 +68,7 @@ export const DraggableImage = (props: DraggableImageProps) => {
 
         setPos({ x: evt.pageX - offsetX, y: evt.pageY - offsetY })
       }}
-      style={{ left: pos.x, top: pos.y }}
+      style={{ width: '100%', left: pos.x, top: pos.y }}
       {...props}
     />
   )
