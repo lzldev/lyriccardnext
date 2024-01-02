@@ -1,7 +1,6 @@
 'use client'
 
 import clsx from 'clsx'
-import html2canvas from 'html2canvas'
 
 import { type HTMLAttributes, useCallback, useRef, useMemo, useId } from 'react'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
@@ -10,6 +9,7 @@ import { useLyricCardStore } from '../stores/LyricCardStore'
 import { createPortal } from 'react-dom'
 import { isDark, rgbToHsl } from '../utils/colors'
 import { DraggableImage } from './DraggableImage'
+import { toPng } from 'html-to-image'
 
 type LyricCardProps = {
   vertical?: boolean
@@ -46,18 +46,11 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
   const exportCardCallback = useCallback(async () => {
     if (!cardRef.current) return
 
-    const canvas = await html2canvas(cardRef.current, {
-      backgroundColor: null,
-      scale: 2,
-      useCORS: true,
-      removeContainer: true,
-    })
+    const newimg = await toPng(cardRef.current, {})
 
-    const screenshot = canvas.toDataURL('image/png')
     const link = document.createElement('a')
-
-    link.href = screenshot
-    link.download = 'screenshot.png'
+    link.href = newimg
+    link.download = 'lyric_card.png'
     link.click()
   }, [cardRef])
 
