@@ -22,13 +22,12 @@ const LyricCardOptions = () => {
   }
 
   return (
-    <div className='flex h-12 w-full flex-wrap items-center justify-center gap-x-6 gap-y-6'>
-      <div className='flex items-center gap-x-3'>
-        <span>Footer</span>
+    <div className='flex w-full flex-wrap items-center justify-center gap-x-6 gap-y-6'>
+      <div className='flex items-stretch justify-stretch gap-x-3'>
         <input
           ref={pickerRef}
           type='color'
-          className='ring-white hover:ring-1'
+          className='flex h-[2.6rem] w-full min-w-10 ring-white hover:ring-1'
           value={footerColor}
           onChange={(evt) => {
             setLyricCardStyle('footerColor', evt.currentTarget.value)
@@ -63,8 +62,9 @@ export { LyricCardOptions }
 type _OptionButtonProps = TwcComponentProps<'div'> & { $active?: boolean }
 
 const _OptionButton = twc.div<_OptionButtonProps>((props) => [
-  `bg-accent-dark hover:bg-dark hover:text-accent transition-all duration-75 py-2 px-3 hover:cursor-pointer min-w-10 text-center`,
-  props.$active && `bg-accent`,
+  `hover:bg-dark hover:text-accent transition-all duration-75 py-2 px-3 hover:cursor-pointer min-w-10 text-center`,
+  !props.$active && 'bg-accent-highlight',
+  props.$active && 'bg-accent',
 ])
 const OptionButton = <
   TStyle extends keyof Pick<

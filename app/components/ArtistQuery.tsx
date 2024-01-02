@@ -27,7 +27,7 @@ const ArtistsQuery = () => {
         </p>
       )}
       <input
-        className='flex w-full min-w-0 max-w-full bg-neutral-700 p-1 outline-none ring-1 ring-accent focus:outline-accent-highlight'
+        className='flex w-full min-w-0 max-w-full border border-accent bg-neutral-700 p-1 outline-none focus:outline-accent-highlight'
         placeholder='Search Artist'
         type='text'
         value={query}
@@ -41,7 +41,7 @@ const ArtistsQuery = () => {
       <div
         className={clsx(
           'pointer-events-none absolute -bottom-[5rem] z-10 h-[5rem] w-full overflow-y-scroll bg-neutral-600',
-          !showDropDown || !foundArtists ? 'hidden' : '',
+          loading || !showDropDown || !foundArtists ? 'hidden' : '',
         )}
       >
         {artists?.map((item, idx) => (

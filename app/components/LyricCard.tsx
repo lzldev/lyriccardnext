@@ -2,12 +2,12 @@
 
 import clsx from 'clsx'
 
-import { type HTMLAttributes, useCallback, useRef, useMemo, useId } from 'react'
+import { type HTMLAttributes, useCallback, useRef, useMemo } from 'react'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
 import { useArtistQueryStore } from '../stores/ArtistQueryStore'
 import { useLyricCardStore } from '../stores/LyricCardStore'
 import { createPortal } from 'react-dom'
-import { isDark, rgbToHsl } from '../utils/colors'
+import { isDark } from '../utils/colors'
 import { DraggableImage } from './DraggableImage'
 import { toPng } from 'html-to-image'
 
@@ -50,7 +50,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
   const exportCardCallback = useCallback(async () => {
     if (!cardRef.current) return
 
-    const newimg = await toPng(cardRef.current, {})
+    const newimg = await toPng(cardRef.current)
 
     const link = document.createElement('a')
     link.href = newimg
@@ -63,11 +63,17 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
   }
 
   return (
-    <div className={clsx('flex flex-col gap-y-2')}>
+    <div
+      className={clsx(
+        'flex h-full w-full min-w-[300px] flex-1 gap-y-2 md:min-w-fit',
+        vertical && 'flex-grow',
+        !vertical && 'flex-shrink',
+      )}
+    >
       <div
         ref={cardRef}
         className={clsx(
-          'relative flex h-[22rem] w-full flex-col overflow-hidden bg-accent object-contain',
+          'relative flex h-auto w-full flex-col overflow-clip bg-accent md:max-w-xl',
           vertical ? 'aspect-[5/4]' : 'aspect-[16/9]',
         )}
       >
@@ -75,15 +81,17 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
           src={imageURI}
           alt={selected.alt}
           width={700}
-          height={700}
+          height={0}
           className='absolute max-w-none'
         />
         <div
-          className={clsx('pointer-events-none z-20 flex flex-grow flex-col')}
+          className={clsx(
+            'pointer-events-none z-20 flex h-full flex-grow flex-col overflow-clip',
+          )}
         >
           <p
             className={clsx(
-              'pointer-events-auto flex h-fit w-fit flex-col gap-y-1 bg-clip-content p-4 outline-none *-[div]:flex *-[div]:w-fit *-[div]:p-1 *-[div]:px-2',
+              'pointer-events-none flex h-fit w-fit flex-col gap-y-1 overflow-clip p-4 outline-none *-[div]:pointer-events-auto *-[div]:w-fit *-[div]:max-w-full *-[div]:p-1 *-[div]:px-2',
               cardMode === 'dark' && 'text-white *-[div]:bg-black',
               cardMode === 'light' && 'text-black *-[div]:bg-white',
               fontSize === 'sm' && 'text-md',
@@ -105,7 +113,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
         </div>
         <div
           className={clsx(
-            'z-20 w-full border-t-2 bg-transparent p-4',
+            'z-20 flex h-fit w-full border-t-2 bg-transparent p-4 py-6',
             isFooterDark && 'border-white text-white',
             !isFooterDark && 'border-black text-black',
           )}

@@ -17,14 +17,12 @@ export default function RootLayout({
     <html lang='en'>
       <body
         className={clsx(
-          'flex w-full flex-col bg-background text-dark selection:bg-accent-highlight',
+          'flex min-h-full w-full max-w-full flex-col bg-background text-dark selection:bg-accent-highlight',
           Font.className,
         )}
       >
         <HydrationOverlay>
-          <main className='flex h-full min-h-screen w-full flex-col overflow-hidden'>
-            {children}
-          </main>
+          <main className='flex min-h-screen w-full flex-col'>{children}</main>
         </HydrationOverlay>
       </body>
     </html>
