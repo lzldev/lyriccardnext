@@ -24,13 +24,19 @@ export async function GET(request: NextRequest) {
   const page = cheerio.load(data)
 
   const images: LyricCardImageResponse[] = []
+  const srcSet = new Set<string>()
 
-  page('.image-list-item>img').each((_, el) => {
+  page('.image-list-item>img:first-of-type').each((_, el) => {
+    if (srcSet.has(el.attribs['src'])) return
+    srcSet.add(el.attribs['src'])
+
     images.push({
       src: el.attribs['src'],
       alt: el.attribs['alt'],
     })
   })
+
+  console.log(images.length, page('.image-list-item>img').length)
 
   return NextResponse.json(images)
 }
