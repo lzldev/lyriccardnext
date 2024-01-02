@@ -2,20 +2,16 @@
 
 import { useArtistImageStore } from '../stores/ArtistImageStore'
 import { useLyricCardStore } from '../stores/LyricCardStore'
-
 import { twc } from 'react-twc'
 
 const OptionButton = twc.div`bg-accent hover:bg-dark hover:text-accent transition-all duration-75 py-2 px-3 hover:cursor-pointer min-w-10 text-center`
 
 const LyricCardOptions = () => {
   const selected = useArtistImageStore((s) => s.selected)
-  const { setFooterColor, footerColor, setFontSize, setColorMode } =
-    useLyricCardStore((s) => ({
-      setFooterColor: s.setFooterColor,
-      footerColor: s.footerColor,
-      setColorMode: s.setCardMode,
-      setFontSize: s.setFontSize,
-    }))
+  const { footerColor, setLyricCardStyle } = useLyricCardStore((s) => ({
+    footerColor: s.footerColor,
+    setLyricCardStyle: s.setLyricCardStyle,
+  }))
 
   if (!selected) {
     return <></>
@@ -30,7 +26,7 @@ const LyricCardOptions = () => {
           className='hover:ring-1 ring-white'
           value={footerColor}
           onChange={(evt) => {
-            setFooterColor(evt.currentTarget.value)
+            setLyricCardStyle('footerColor', evt.currentTarget.value)
           }}
         />
       </div>
@@ -38,14 +34,14 @@ const LyricCardOptions = () => {
         <span className='flex items-center justify-center text-center'>S</span>
         <OptionButton
           onClick={() => {
-            setColorMode('light')
+            setLyricCardStyle('cardMode', 'light')
           }}
         >
           light
         </OptionButton>
         <OptionButton
           onClick={() => {
-            setColorMode('dark')
+            setLyricCardStyle('cardMode', 'dark')
           }}
         >
           dark
@@ -55,21 +51,21 @@ const LyricCardOptions = () => {
         <span className='flex items-center justify-center text-center'>F</span>
         <OptionButton
           onClick={() => {
-            setFontSize('sm')
+            setLyricCardStyle('fontSize', 'sm')
           }}
         >
           sm
         </OptionButton>
         <OptionButton
           onClick={() => {
-            setFontSize('md')
+            setLyricCardStyle('fontSize', 'md')
           }}
         >
           md
         </OptionButton>
         <OptionButton
           onClick={() => {
-            setFontSize('lg')
+            setLyricCardStyle('fontSize', 'lg')
           }}
         >
           lg

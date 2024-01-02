@@ -16,11 +16,17 @@ interface LyricCardStore {
   footerContent: string
   setFooterContent: (evt: FocusEvent<HTMLDivElement, Element>) => void
   footerColor: string
-  setFooterColor: (color: string) => void
   cardMode: LyricCardModes
-  setCardMode: (mode: LyricCardModes) => void
   fontSize: FontSizes
-  setFontSize: (size: FontSizes) => void
+  setLyricCardStyle: <
+    TStyle extends keyof Pick<
+      LyricCardStore,
+      'fontSize' | 'cardMode' | 'footerColor'
+    >
+  >(
+    style: TStyle,
+    value: LyricCardStore[TStyle]
+  ) => void
 }
 
 const useLyricCardStore = create<LyricCardStore>()((set) => ({
@@ -33,18 +39,10 @@ const useLyricCardStore = create<LyricCardStore>()((set) => ({
     set({ footerContent: xss(evt.currentTarget.innerHTML) })
   },
   footerColor: '#000000',
-  setFooterColor: (color) => {
-    set({
-      footerColor: color,
-    })
-  },
   cardMode: 'dark',
-  setCardMode: (mode) => {
-    set({ cardMode: mode })
-  },
   fontSize: 'md',
-  setFontSize: (size) => {
-    set({ fontSize: size })
+  setLyricCardStyle: (style, value) => {
+    set({ [style]: value })
   },
 }))
 
