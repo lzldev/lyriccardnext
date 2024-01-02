@@ -44,7 +44,7 @@ export async function GET(request: Request) {
   }
 
   const timeSinceLastAuth = Math.floor(
-    (new Date().getTime() - lastAuthTime) / 1000
+    (new Date().getTime() - lastAuthTime) / 1000,
   )
 
   if (currentToken === null || timeSinceLastAuth > currentToken?.expires_in) {

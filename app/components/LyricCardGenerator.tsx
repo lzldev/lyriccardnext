@@ -7,46 +7,45 @@ const ArtistsQuery = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className='flex items-center justify-center text-xl h-1'>
+      <div className='flex h-1 items-center justify-center text-xl'>
         Loading...
       </div>
     ),
-  }
+  },
 )
-
 
 const ImagePicker = dynamic(
   async () => (await import('./ImagePicker')).ImagePicker,
   {
     ssr: false,
     loading: () => (
-      <div className='flex items-center justify-center text-xl h-1'>
+      <div className='flex h-1 items-center justify-center text-xl'>
         Loading...
       </div>
     ),
-  }
+  },
 )
-
 
 const LyricCard = dynamic(async () => (await import('./LyricCard')).LyricCard, {
   ssr: false,
   loading: () => (
-    <div className='flex items-center justify-center text-xl flex-grow h-72'>
+    <div className='flex h-72 flex-grow items-center justify-center text-xl'>
       Loading...
     </div>
   ),
 })
 
-
-const LyricCardOptions = dynamic(async () => (await import('./LyricCardOptions')).LyricCardOptions, {
-  ssr: false,
-  loading: () => (
-    <div className='flex items-center justify-center text-xl flex-grow h-72'>
-      Loading...
-    </div>
-  ),
-})
-
+const LyricCardOptions = dynamic(
+  async () => (await import('./LyricCardOptions')).LyricCardOptions,
+  {
+    ssr: false,
+    loading: () => (
+      <div className='flex h-72 flex-grow items-center justify-center text-xl'>
+        Loading...
+      </div>
+    ),
+  },
+)
 
 export const LyricCardGenerator = () => {
   return (
@@ -55,7 +54,7 @@ export const LyricCardGenerator = () => {
       <div className='p-2' />
       <ImagePicker />
       <div className='p-2' />
-      <div className='flex flex-row flex-wrap justify-center w-full gap-4'>
+      <div className='flex w-full flex-row flex-wrap justify-center gap-4'>
         <LyricCard />
         <LyricCard vertical />
         <LyricCardOptions />

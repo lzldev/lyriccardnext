@@ -20,14 +20,14 @@ const ArtistsQuery = () => {
   const foundArtists = artists?.length && artists?.length > 0
 
   return (
-    <div className='flex relative flex-col w-full'>
+    <div className='relative flex w-full flex-col'>
       {loading && (
         <p className='absolute inset-y-0 right-4 h-full align-middle'>
           loading...
         </p>
       )}
       <input
-        className='flex p-1 w-full min-w-0 max-w-full ring-1 outline-none bg-neutral-700 ring-accent focus:outline-accent-highlight'
+        className='flex w-full min-w-0 max-w-full bg-neutral-700 p-1 outline-none ring-1 ring-accent focus:outline-accent-highlight'
         placeholder='Search Artist'
         type='text'
         value={query}
@@ -40,7 +40,7 @@ const ArtistsQuery = () => {
       />
       <div
         className={clsx(
-          'absolute -bottom-[5rem] z-10 h-[5rem] bg-neutral-600 w-full overflow-y-scroll pointer-events-none',
+          'pointer-events-none absolute -bottom-[5rem] z-10 h-[5rem] w-full overflow-y-scroll bg-neutral-600',
           !showDropDown || !foundArtists ? 'hidden' : '',
         )}
       >
@@ -54,7 +54,7 @@ const ArtistsQuery = () => {
               pickArtist(idx)
               setShowDropDown(false)
             }}
-            className='flex pointer-events-auto select-none hover:bg-neutral-500'
+            className='pointer-events-auto flex select-none hover:bg-neutral-500'
           >
             {item.name}
           </div>

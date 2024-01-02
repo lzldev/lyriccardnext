@@ -22,10 +22,10 @@ interface LyricCardStore {
     TStyle extends keyof Pick<
       LyricCardStore,
       'fontSize' | 'cardMode' | 'footerColor'
-    >
+    >,
   >(
     style: TStyle,
-    value: LyricCardStore[TStyle]
+    value: LyricCardStore[TStyle],
   ) => void
 }
 

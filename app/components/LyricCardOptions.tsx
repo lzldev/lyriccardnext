@@ -18,19 +18,19 @@ const LyricCardOptions = () => {
   }
 
   return (
-    <div className='flex gap-x-6 items-center w-full h-12'>
-      <div className='flex-col items-center flex p-2 gap-y-0.5 bg-neutral-700'>
+    <div className='flex h-12 w-full items-center gap-x-6'>
+      <div className='flex items-center gap-y-0.5 bg-neutral-700 p-2'>
         <span>Footer</span>
         <input
           type='color'
-          className='hover:ring-1 ring-white'
+          className='ring-white hover:ring-1'
           value={footerColor}
           onChange={(evt) => {
             setLyricCardStyle('footerColor', evt.currentTarget.value)
           }}
         />
       </div>
-      <div className='gap-x-3 flex'>
+      <div className='flex gap-x-3'>
         <span className='flex items-center justify-center text-center'>S</span>
         <OptionButton
           onClick={() => {
@@ -47,7 +47,7 @@ const LyricCardOptions = () => {
           dark
         </OptionButton>
       </div>
-      <div className='gap-x-3 flex'>
+      <div className='flex gap-x-3'>
         <span className='flex items-center justify-center text-center'>F</span>
         <OptionButton
           onClick={() => {

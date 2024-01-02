@@ -32,7 +32,7 @@ useArtistQueryStore.subscribe(
 
     useArtistImageStore.setState(() => ({
       loading: true,
-      result:null,
+      result: null,
     }))
 
     const res = await w

@@ -5,9 +5,8 @@ export const ServerErrorResponse = (error: any = null) =>
     status: 500,
   })
 
-
 export const InvalidDataResponse = () => {
-    return new NextResponse(null, {
-      status: 400,
-    })
+  return new NextResponse(null, {
+    status: 400,
+  })
 }

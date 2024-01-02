@@ -11,7 +11,7 @@ if (
 }
 
 const AUTH_HEADER = `Basic ${Buffer.from(
-  `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`
+  `${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`,
 ).toString('base64')}`
 
 type SPOTIFY_TOKEN = {

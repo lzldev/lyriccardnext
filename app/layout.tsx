@@ -22,7 +22,7 @@ export default function RootLayout({
         )}
       >
         <HydrationOverlay>
-          <main className='flex flex-col w-full h-screen min-h-screen'>
+          <main className='flex h-screen min-h-screen w-full flex-col'>
             {children}
           </main>
         </HydrationOverlay>

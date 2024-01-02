@@ -13,11 +13,11 @@ const ImagePicker = () => {
   }
 
   return (
-    <div className='flex overflow-x-scroll gap-x-4 p-2 w-full ring-1 ring-accent'>
+    <div className='flex w-full gap-x-4 overflow-x-scroll p-2 ring-1 ring-accent'>
       {result.map((image, idx) => (
         <img
           key={image.src + idx}
-          className={`size-24 cursor-pointer hover:ring-1 ring-accent-highlight`}
+          className={`size-24 cursor-pointer ring-accent-highlight hover:ring-1`}
           src={image.src}
           alt={image.alt}
           onClick={() => pickImage(idx)}
