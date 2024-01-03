@@ -6,7 +6,6 @@ import { type HTMLAttributes, useCallback, useRef, useMemo } from 'react'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
 import { useArtistQueryStore } from '../stores/ArtistQueryStore'
 import { useLyricCardStore } from '../stores/LyricCardStore'
-import { createPortal } from 'react-dom'
 import { isDark } from '../utils/colors'
 import { DraggableImage } from './DraggableImage'
 import { toPng } from 'html-to-image'
@@ -42,6 +41,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
   }))
 
   const isFooterDark = useMemo(() => isDark(footerColor), [footerColor])
+
   const imageURI = useMemo(
     () => selected?.src.replace('avatar170s', '700x0'),
     [selected],
@@ -65,7 +65,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
   return (
     <div
       className={clsx(
-        'relative flex h-full w-full min-w-[300px] flex-1 flex-col gap-y-2 md:min-w-fit',
+        'shadow-woodsmoke-900 shadow-pink relative flex h-full w-full min-w-[300px] flex-1 flex-col gap-y-2 shadow-md md:min-w-fit',
         vertical && 'flex-grow',
         !vertical && 'flex-shrink',
       )}
@@ -74,16 +74,22 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
         onClick={exportCardCallback}
         className={clsx(
           'group/button absolute bottom-6 right-4 z-50 flex cursor-pointer flex-row-reverse overflow-clip text-dark-highlight',
-          isFooterDark && 'border-card-dark text-card-dark',
-          !isFooterDark && 'border-card-light text-card-light',
         )}
       >
-        <DownloadIcon className='mx-1 flex size-5 rounded-l-full' />
+        <DownloadIcon
+          className={clsx(
+            'mx-1 flex size-5 rounded-l-full',
+            isFooterDark && 'text-card-dark',
+            !isFooterDark && 'text-card-light',
+          )}
+        />
         <div className='-mr-[1.15rem] ml-2 flex w-4 rounded-l-full'></div>
         <div className={'-z-10 flex flex-grow overflow-clip rounded-r-full'}>
           <span
             className={clsx(
               'translate-x-full transition-transform group-hover/button:translate-x-0',
+              isFooterDark && 'text-card-dark',
+              !isFooterDark && 'text-card-light',
             )}
           >
             download

@@ -54,7 +54,7 @@ const customColors = {
     '900': 'hsl(265, 10%, 24%)',
     '950': 'hsl(270, 10%, 8%)',
   },
-  coolPink: {
+  pinkier: {
     '50': '#fff1f4',
     '100': '#ffe4e9',
     '200': '#fdced9',
@@ -84,8 +84,9 @@ const config = {
   theme: {
     extend: {
       colors: {
+        ...customColors,
         accent: {
-          DEFAULT: customColors.coolPink['400'],
+          DEFAULT: customColors.pinkier['400'],
           background: colors.pink['400'],
         },
         background: {
@@ -94,7 +95,7 @@ const config = {
         },
         /* TEXT */
         dark: {
-          DEFAULT: customColors.coolPink['200'],
+          DEFAULT: customColors.pinkier['200'],
           background: {
             DEFAULT: customColors.woodsmoke['950'],
             dimmed: customColors.woodsmoke['900'],

@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import { useArtistQueryStore } from '../stores/ArtistQueryStore'
+import { Icon } from '@iconify/react'
 
 const ArtistsQuery = () => {
   const [showDropDown, setShowDropDown] = useState(false)
@@ -32,9 +33,10 @@ const ArtistsQuery = () => {
   return (
     <div className='relative flex w-full flex-col'>
       {loading && (
-        <p className='absolute inset-y-0 right-4 h-full align-middle'>
-          loading...
-        </p>
+        <Icon
+          icon='fluent:spinner-ios-20-filled'
+          className='absolute inset-y-0 right-1 size-6 h-full animate-spin align-middle ease-in-out'
+        />
       )}
       <input
         className={clsx(
@@ -54,7 +56,7 @@ const ArtistsQuery = () => {
       <div
         ref={dropdownRef}
         className={clsx(
-          'pointer-events-none absolute -bottom-[5rem] z-10 h-[5rem] w-full overflow-y-scroll border-b border-accent bg-dark-background-dimmed',
+          'pointer-events-none absolute -bottom-[5rem] z-10 h-[5rem] w-full overflow-y-scroll border-x border-b border-accent bg-dark-background-dimmed',
           showDrop ? 'invisible' : '',
         )}
       >
@@ -62,7 +64,7 @@ const ArtistsQuery = () => {
           <div
             key={idx}
             tabIndex={idx}
-            className='pointer-events-auto flex select-none hover:bg-dark-highlight'
+            className='pointer-events-auto flex select-none hover:bg-dark-highlight hover:text-accent'
             onClick={(evt) => {
               evt.preventDefault()
               evt.stopPropagation()
