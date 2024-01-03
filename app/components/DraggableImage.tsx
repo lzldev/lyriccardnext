@@ -3,12 +3,12 @@
 'use client'
 
 import Image, { ImageProps } from 'next/image'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect, memo } from 'react'
 import { flushSync } from 'react-dom'
 
 type DraggableImageProps = ImageProps
 
-export const DraggableImage = (props: DraggableImageProps) => {
+const DraggableImage = (props: DraggableImageProps) => {
   const imgRef = useRef<HTMLImageElement>(null)
   const dragging = useRef(false)
 
@@ -76,3 +76,15 @@ export const DraggableImage = (props: DraggableImageProps) => {
     />
   )
 }
+
+const DraggableImageMemoized = memo(DraggableImage, (prev, next) => {
+  if (prev.className !== next.className) {
+    return false
+  } else if (prev.src !== next.src || prev.alt !== next.alt) {
+    return false
+  }
+
+  return true
+})
+
+export { DraggableImageMemoized as DraggableImage }

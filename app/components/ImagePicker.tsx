@@ -1,4 +1,5 @@
 'use client'
+import { Icon } from '@iconify/react'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
 import Image from 'next/image'
 
@@ -35,7 +36,7 @@ const ImagePicker = () => {
           <Image
             key={image.src + idx}
             className={
-              'size-24 cursor-pointer bg-neutral-400 object-scale-down object-bottom ring-accent hover:ring-1'
+              'size-24 min-w-24 cursor-pointer bg-neutral-400 object-scale-down object-bottom ring-accent hover:ring-1'
             }
             src={image.src}
             alt={image.alt}
@@ -45,11 +46,11 @@ const ImagePicker = () => {
           />
         ))}
         {loading && (
-          <div
-            onClick={getNext}
-            className='flex size-24 min-w-24 cursor-pointer select-none flex-col items-center justify-center bg-neutral-400 align-middle text-6xl ring-1 ring-neutral-200 hover:bg-neutral-300'
-          >
-            SPINNER
+          <div className='flex size-24 min-w-24 select-none flex-col items-center justify-center overflow-hidden bg-dark-background-dimmed align-middle text-6xl ring-1 ring-dark'>
+            <Icon
+              className='size-14 animate-spin ease-in-out'
+              icon='fluent:spinner-ios-20-filled'
+            />
           </div>
         )}
         {hasNextPage && (
