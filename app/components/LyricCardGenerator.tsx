@@ -10,7 +10,7 @@ export const LyricCardGenerator = () => {
       <div className='flex h-full w-full flex-1 flex-col gap-y-4 p-4 md:max-w-6xl md:pt-6'>
         <ArtistsQuery />
         <ImagePicker />
-        <div className='flex w-full flex-row-reverse flex-wrap gap-4 md:flex-row'>
+        <div className='flex w-full flex-row-reverse flex-wrap content-center gap-4'>
           <LyricCard vertical />
           <LyricCard />
         </div>
