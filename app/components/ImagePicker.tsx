@@ -1,4 +1,5 @@
 'use client'
+import { Suspense } from 'react'
 import { Icon } from '@iconify/react'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
 import Image from 'next/image'
@@ -33,19 +34,21 @@ const ImagePicker = () => {
   return (
     <>
       <div className='flex w-full scroll-m-6 gap-x-4 overflow-x-scroll scroll-smooth border-x border-t border-accent p-2'>
-        {result.map((image, idx) => (
-          <Image
-            key={image.src + idx}
-            className={
-              'size-24 min-w-24 cursor-pointer bg-neutral-400 object-scale-down object-bottom ring-accent hover:ring-1'
-            }
-            src={image.src}
-            alt={image.alt}
-            width={170}
-            height={0}
-            onClick={() => pickImage(idx)}
-          />
-        ))}
+        <Suspense fallback={<LoadingText text='Suspense ' />}>
+          {result.map((image, idx) => (
+            <Image
+              key={image.src + idx}
+              className={
+                'size-24 min-w-24 cursor-pointer bg-neutral-400 object-scale-down object-bottom ring-accent hover:ring-1'
+              }
+              src={image.src}
+              alt={image.alt}
+              width={170}
+              height={0}
+              onClick={() => pickImage(idx)}
+            />
+          ))}
+        </Suspense>
         {loading && (
           <div className='flex size-24 min-w-24 select-none flex-col items-center justify-center overflow-hidden bg-dark-background-dimmed align-middle text-6xl ring-1 ring-dark'>
             <Icon

@@ -3,7 +3,8 @@
 'use client'
 
 import Image, { ImageProps } from 'next/image'
-import { useRef, useState, useEffect, memo } from 'react'
+import { useRef, useState, useEffect, memo, useCallback } from 'react'
+import type { MouseEvent as ReactMouseEvent } from 'react'
 import { flushSync } from 'react-dom'
 
 type DraggableImageProps = ImageProps
@@ -18,20 +19,31 @@ const DraggableImage = (props: DraggableImageProps) => {
     if (!imgRef.current) return
     const el = imgRef.current
 
-    const listener = (e: WheelEvent) => {
-      e.stopImmediatePropagation()
-      e.stopPropagation()
-      e.preventDefault()
+    const listener = (evt: WheelEvent) => {
+      evt.stopImmediatePropagation()
+      evt.stopPropagation()
+      evt.preventDefault()
+
+      const isUp = evt.deltaY < 0
+      const offsetMul = isUp ? -1 : 1
+      const offset = 4 * offsetMul
 
       const w = el.style.width
-      const nw = parseInt(w.substring(0, w.length - 1))
-      const isUp = e.deltaY < 0
+      const width = parseInt(w.substring(0, w.length - 1))
 
-      flushSync(() => {
-        el.style.width = `${isUp ? nw + 2 : Math.max(nw - 2, 0)}%`
-      })
+      const left = parseInt(
+        el.style.left.substring(0, el.style.left.length - 2),
+      )
+      const top = parseInt(
+        el.style.top.substring(0, el.style.top.length - 2),
+      )
+
+      el.style.width = `${Math.max(width - offset, 0)}%`
+      el.style.top = `${top + offset}px`
+      el.style.left = `${left + offset}px`
     }
 
+    //React does not support adding a listener as passive.
     el.addEventListener('wheel', listener, {
       passive: false,
     })
@@ -40,9 +52,27 @@ const DraggableImage = (props: DraggableImageProps) => {
     }
   }, [imgRef])
 
+  const dragCallback = useCallback(
+    (evt: ReactMouseEvent<HTMLImageElement, MouseEvent>) => {
+      if (dragging.current === false || !evt.currentTarget) {
+        return
+      }
+
+      const left = parseInt(evt.currentTarget.style.left) ?? 0
+      const top = parseInt(evt.currentTarget.style.top) ?? 0
+
+      //Doing this outside react makes it faster :)
+      evt.currentTarget.style.left = `${left + evt.movementX}px`
+      evt.currentTarget.style.top = `${top + evt.movementY}px`
+    },
+    [],
+  )
+
   return (
     <Image
       ref={imgRef}
+      style={{ width: '100%', left: pos.x, top: pos.y }}
+      onMouseMove={dragCallback}
       draggable={false}
       onMouseDown={() => {
         dragging.current = true
@@ -53,25 +83,6 @@ const DraggableImage = (props: DraggableImageProps) => {
       onMouseLeave={() => {
         dragging.current = false
       }}
-      onMouseMove={(evt) => {
-        if (dragging.current === false) {
-          return
-        }
-
-        const el = imgRef.current!
-        //The absolute relative container is 2 DIVs up
-        //TODO: Add Ref prop for that
-        const parent = el.parentElement!.parentElement!
-
-        const { offsetLeft, offsetTop } = parent
-        const { width, height } = evt.currentTarget
-
-        const offsetX = offsetLeft + width / 2
-        const offsetY = offsetTop + height / 2
-
-        setPos({ x: evt.pageX - offsetX, y: evt.pageY - offsetY })
-      }}
-      style={{ width: '100%', left: pos.x, top: pos.y }}
       {...props}
     />
   )
