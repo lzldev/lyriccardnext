@@ -65,7 +65,7 @@ const LyricCard = ({ vertical }: LyricCardProps) => {
   return (
     <div
       className={clsx(
-        'shadow-pink relative flex h-full w-full min-w-[300px] flex-1 flex-col gap-y-2 shadow-md shadow-woodsmoke-900',
+        'shadow-pink relative flex h-full w-full min-w-[300px] flex-1 flex-col gap-y-2 ring-2 ring-neutral-800 ring-offset-1 ring-offset-dark-background',
         vertical && 'flex-grow',
         !vertical && 'flex-shrink',
       )}

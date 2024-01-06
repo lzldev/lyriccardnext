@@ -30,6 +30,7 @@ const ArtistsQuery = () => {
   const artists = result?.results.artistmatches.artist
   const foundArtists = artists?.length && artists?.length > 0
   const showDrop = loading || !showDropDown || !foundArtists
+
   return (
     <div className='relative flex w-full flex-col'>
       {loading && (
@@ -64,7 +65,7 @@ const ArtistsQuery = () => {
           <div
             key={idx}
             tabIndex={idx}
-            className='pointer-events-auto flex select-none hover:bg-dark-highlight hover:text-accent'
+            className='pointer-events-auto flex select-none outline-none ring-accent-dimmed hover:bg-dark-highlight hover:text-accent focus:ring-1'
             onClick={(evt) => {
               evt.preventDefault()
               evt.stopPropagation()
