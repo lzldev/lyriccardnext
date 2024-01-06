@@ -2,6 +2,7 @@
 import { Icon } from '@iconify/react'
 import { useArtistImageStore } from '../stores/ArtistImageStore'
 import Image from 'next/image'
+import { LoadingText } from './LoadingText'
 
 const ImagePicker = () => {
   const { result, pickImage, hasNextPage, getNext, loading } =
@@ -16,7 +17,7 @@ const ImagePicker = () => {
   if (!result && loading) {
     return (
       <div className='flex h-24 w-full items-center justify-center p-2 align-middle text-3xl'>
-        loading...
+        <LoadingText />
       </div>
     )
   } else if (!result) {
