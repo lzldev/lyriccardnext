@@ -5,7 +5,6 @@
 import Image, { ImageProps } from 'next/image'
 import { useRef, useState, useEffect, memo, useCallback } from 'react'
 import type { MouseEvent as ReactMouseEvent } from 'react'
-import { flushSync } from 'react-dom'
 
 type DraggableImageProps = ImageProps
 
@@ -34,9 +33,7 @@ const DraggableImage = (props: DraggableImageProps) => {
       const left = parseInt(
         el.style.left.substring(0, el.style.left.length - 2),
       )
-      const top = parseInt(
-        el.style.top.substring(0, el.style.top.length - 2),
-      )
+      const top = parseInt(el.style.top.substring(0, el.style.top.length - 2))
 
       el.style.width = `${Math.max(width - offset, 0)}%`
       el.style.top = `${top + offset}px`

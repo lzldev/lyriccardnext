@@ -8,7 +8,7 @@ export default function Home() {
         <span className='select-none'>
           source
           <a
-            className='text-dark-highlight font-semibold'
+            className='font-semibold text-dark-highlight'
             href='https://github.com/lzldev/'
           >
             {' @lzldev'}

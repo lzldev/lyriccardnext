@@ -65,7 +65,7 @@ const ArtistsQuery = () => {
           <div
             key={idx}
             tabIndex={idx}
-            className='pointer-events-auto flex select-none outline-none ring-accent-dimmed hover:bg-dark-highlight hover:text-accent focus:ring-1'
+            className='ring-accent-dimmed pointer-events-auto flex select-none outline-none hover:bg-dark-highlight hover:text-accent focus:ring-1'
             onClick={(evt) => {
               evt.preventDefault()
               evt.stopPropagation()
