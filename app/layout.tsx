@@ -1,7 +1,6 @@
 import { clsx } from 'clsx'
 import './globals.css'
 import { GeistSans as Font } from 'geist/font/sans'
-import { HydrationOverlay } from '@builder.io/react-hydration-overlay'
 
 export const metadata = {
   title: 'Lyric Card Generator',
@@ -21,9 +20,7 @@ export default function RootLayout({
           Font.className,
         )}
       >
-        <HydrationOverlay>
-          <main className='flex min-h-screen w-full flex-col'>{children}</main>
-        </HydrationOverlay>
+        <main className='flex min-h-screen w-full flex-col'>{children}</main>
       </body>
     </html>
   )
